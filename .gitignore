@@ -1,0 +1,7 @@
+storage/database/*.sqlite
+storage/database/*.sqlite-journal
+storage/logs/*.log
+.DS_Store
+*.swp
+.idea/
+.vscode/
