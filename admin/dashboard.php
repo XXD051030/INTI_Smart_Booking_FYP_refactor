@@ -10,7 +10,6 @@ $currentAdmin = current_admin();
 $search = trim((string) ($_GET['search'] ?? ''));
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    verify_csrf_or_abort();
     $action = (string) ($_POST['action'] ?? '');
 
     if ($action === 'edit_user') {

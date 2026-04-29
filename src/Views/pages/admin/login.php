@@ -5,7 +5,6 @@
     <p class="auth-card__meta">Manage students, booking status, exports, and password resets from the V2 console.</p>
 
     <form method="POST" class="auth-form">
-        <?= csrf_field() ?>
         <div class="form-field">
             <label for="username">Username</label>
             <input id="username" name="username" type="text" placeholder="admin" value="<?= e((string) old('username')) ?>" required>

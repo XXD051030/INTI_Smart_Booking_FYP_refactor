@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 use V2\Support\AppContext;
 use V2\Support\Auth;
-use V2\Support\Csrf;
-use V2\Support\Flash;
 
 function config(string $key, mixed $default = null): mixed
 {
@@ -46,11 +44,6 @@ function admin_url(string $path = ''): string
     return app_url('admin/' . ltrim($path, '/'));
 }
 
-function action_url(string $path = ''): string
-{
-    return app_url('actions/' . ltrim($path, '/'));
-}
-
 function site_url(string $path = ''): string
 {
     $root = PROJECT_BASE_URL;
@@ -78,19 +71,27 @@ function redirect(string $path): never
 
 function flash(string $key, string $message, string $type = 'success'): void
 {
-    Flash::set($key, ['message' => $message, 'type' => $type]);
+    $_SESSION['_flash'][$key] = ['message' => $message, 'type' => $type];
 }
 
-function pull_flash(string $key): mixed
+function pull_flash(string $key): ?array
 {
-    return Flash::pull($key);
+    if (!isset($_SESSION['_flash'][$key])) {
+        return null;
+    }
+
+    $value = $_SESSION['_flash'][$key];
+    unset($_SESSION['_flash'][$key]);
+
+    return $value;
 }
 
 function old(string $key, mixed $default = ''): mixed
 {
     static $oldInput;
     if ($oldInput === null) {
-        $oldInput = Flash::pullOldInput();
+        $oldInput = $_SESSION['_old_input'] ?? [];
+        unset($_SESSION['_old_input']);
     }
 
     return $oldInput[$key] ?? $default;
@@ -98,31 +99,12 @@ function old(string $key, mixed $default = ''): mixed
 
 function remember_old_input(array $input): void
 {
-    Flash::setOldInput($input);
+    $_SESSION['_old_input'] = $input;
 }
 
 function clear_old_input(): void
 {
-    Flash::clearOldInput();
-}
-
-function csrf_token(): string
-{
-    return Csrf::token();
-}
-
-function csrf_field(): string
-{
-    return '<input type="hidden" name="_token" value="' . e(csrf_token()) . '">';
-}
-
-function verify_csrf_or_abort(): void
-{
-    $token = $_POST['_token'] ?? '';
-    if (!Csrf::verify((string) $token)) {
-        http_response_code(419);
-        exit('CSRF token mismatch.');
-    }
+    unset($_SESSION['_old_input']);
 }
 
 function current_student(): ?array

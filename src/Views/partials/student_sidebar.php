@@ -5,13 +5,13 @@ $studentNav = [
     'booking' => ['label' => 'Booking', 'href' => app_url('booking.php')],
     'calendar' => ['label' => 'Calendar', 'href' => app_url('calendar.php')],
     'my_bookings' => ['label' => 'My Bookings', 'href' => app_url('my_bookings.php')],
-    'settings' => ['label' => 'Settings', 'href' => app_url('settings.php')],
+    'settings' => ['label' => 'Settings', 'href' => app_url('setting.php')],
     'rules' => ['label' => 'Rules & Regulations', 'href' => app_url('rules.php')],
 ];
 ?>
 <aside class="sidebar">
     <div class="sidebar__brand">
-        <img src="<?= e(site_url('images/logo/inti_logo.png')) ?>" alt="INTI logo">
+        <img src="<?= e(asset_url('images/logo/inti_logo.png')) ?>" alt="INTI logo">
         <div>
             <p>INTI</p>
             <strong>Smart Booking</strong>

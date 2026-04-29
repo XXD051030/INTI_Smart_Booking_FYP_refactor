@@ -5,7 +5,6 @@
     <p class="auth-card__meta">Access your student dashboard, live calendar, and current reservations.</p>
 
     <form method="POST" class="auth-form">
-        <?= csrf_field() ?>
         <div class="form-field">
             <label for="email">Email address</label>
             <input id="email" name="email" type="email" placeholder="p23012345@student.newinti.edu.my" value="<?= e((string) old('email')) ?>" required>

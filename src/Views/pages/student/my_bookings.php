@@ -61,7 +61,6 @@
                         <span class="helper-text">Created <?= e(time_ago($booking['created_at'])) ?></span>
                         <?php if (!empty($booking['can_cancel'])): ?>
                             <form method="POST" data-confirm="Cancel this booking request?">
-                                <?= csrf_field() ?>
                                 <input type="hidden" name="action" value="cancel_booking">
                                 <input type="hidden" name="request_token" value="<?= e($booking['request_token']) ?>">
                                 <button type="submit" class="button button--outline">Cancel booking</button>

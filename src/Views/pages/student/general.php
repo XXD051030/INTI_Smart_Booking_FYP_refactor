@@ -51,7 +51,7 @@
         <?php foreach ($facilities as $facility): ?>
             <article class="facility-card">
                 <div class="facility-card__image">
-                    <img src="<?= e(site_url(ltrim($facility['image_path'], '/'))) ?>" alt="<?= e($facility['name']) ?>">
+                    <img src="<?= e(asset_url($facility['image_path'])) ?>" alt="<?= e($facility['name']) ?>">
                 </div>
                 <div class="facility-card__body">
                     <h3><?= e($facility['name']) ?></h3>

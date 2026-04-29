@@ -14,7 +14,6 @@ if ($user === null) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    verify_csrf_or_abort();
     $action = (string) ($_POST['action'] ?? '');
 
     if ($action === 'mark_all_read') {

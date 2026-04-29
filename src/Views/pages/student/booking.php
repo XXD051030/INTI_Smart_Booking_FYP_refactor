@@ -17,7 +17,7 @@
             <?php foreach ($facilities as $facility): ?>
                 <article class="facility-card">
                     <div class="facility-card__image">
-                        <img src="<?= e(site_url(ltrim($facility['image_path'], '/'))) ?>" alt="<?= e($facility['name']) ?>">
+                        <img src="<?= e(asset_url($facility['image_path'])) ?>" alt="<?= e($facility['name']) ?>">
                     </div>
                     <div class="facility-card__body">
                         <h3><?= e($facility['name']) ?></h3>
@@ -98,7 +98,6 @@
                         </div>
                     <?php else: ?>
                         <form method="POST" class="stack-form">
-                            <?= csrf_field() ?>
                             <input type="hidden" name="action" value="create_booking">
                             <input type="hidden" name="facility_id" value="<?= e((string) $selectedFacility['id']) ?>">
                             <input type="hidden" name="booking_date" value="<?= e($selectedDate) ?>">

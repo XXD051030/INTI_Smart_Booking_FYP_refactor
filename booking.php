@@ -37,7 +37,6 @@ if ($selectedFacilityId > 0) {
 $selectedDate = (string) ($_GET['date'] ?? '');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    verify_csrf_or_abort();
     remember_old_input($_POST);
 
     $selectedFacilityId = (int) ($_POST['facility_id'] ?? 0);

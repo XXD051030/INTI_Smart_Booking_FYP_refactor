@@ -16,7 +16,6 @@ if ($user === null) {
 \V2\Support\Auth::loginStudent($user);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    verify_csrf_or_abort();
     $result = app()->bookingService()->cancelStudentRequest(
         (string) ($_POST['request_token'] ?? ''),
         (int) $user['id'],

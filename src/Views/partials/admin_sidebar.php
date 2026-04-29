@@ -7,7 +7,7 @@ $adminNav = [
 ?>
 <aside class="sidebar admin-sidebar">
     <div class="sidebar__brand">
-        <img src="<?= e(site_url('images/logo/inti_logo.png')) ?>" alt="INTI logo">
+        <img src="<?= e(asset_url('images/logo/inti_logo.png')) ?>" alt="INTI logo">
         <div>
             <p>INTI</p>
             <strong>Admin Console</strong>

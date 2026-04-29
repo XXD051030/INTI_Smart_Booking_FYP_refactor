@@ -40,7 +40,7 @@ final class DatabaseInitializer
                 'description' => 'Quiet collaborative space for focused group work and presentation prep.',
                 'capacity' => 8,
                 'location' => 'Library Level 2',
-                'image_path' => '/images/place/discussion_room.jpg',
+                'image_path' => 'images/place/discussion_room.jpg',
                 'advance_booking_days' => 0,
             ],
             [
@@ -50,7 +50,7 @@ final class DatabaseInitializer
                 'description' => 'Mid-size room with display support for student meetings and review sessions.',
                 'capacity' => 12,
                 'location' => 'Library Level 3',
-                'image_path' => '/images/place/discussion_room.jpg',
+                'image_path' => 'images/place/discussion_room.jpg',
                 'advance_booking_days' => 0,
             ],
             [
@@ -60,7 +60,7 @@ final class DatabaseInitializer
                 'description' => 'Larger room for workshops, project stand-ups, and faculty-supervised sessions.',
                 'capacity' => 16,
                 'location' => 'Main Building Level 4',
-                'image_path' => '/images/place/discussion_room.jpg',
+                'image_path' => 'images/place/discussion_room.jpg',
                 'advance_booking_days' => 0,
             ],
             [
@@ -70,7 +70,7 @@ final class DatabaseInitializer
                 'description' => 'Outdoor sports facility for practice, club sessions, and friendly games.',
                 'capacity' => 20,
                 'location' => 'Sports Complex',
-                'image_path' => '/images/place/basketball_court.jpg',
+                'image_path' => 'images/place/basketball_court.jpg',
                 'advance_booking_days' => 7,
             ],
             [
@@ -80,7 +80,7 @@ final class DatabaseInitializer
                 'description' => 'Hands-on lab for engineering collaboration, demos, and technical project work.',
                 'capacity' => 25,
                 'location' => 'Engineering Building Level 2',
-                'image_path' => '/images/place/stem_lab.jpg',
+                'image_path' => 'images/place/stem_lab.jpg',
                 'advance_booking_days' => 1,
             ],
         ];

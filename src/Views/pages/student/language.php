@@ -5,7 +5,6 @@
     <p>V2 currently ships in English only, but the preference is persisted so more languages can be added later without changing the page flow.</p>
 
     <form method="POST" class="stack-form">
-        <?= csrf_field() ?>
         <div class="form-field">
             <label for="preferred_language">Choose a language</label>
             <select id="preferred_language" name="preferred_language" class="settings-select">
@@ -14,7 +13,7 @@
         </div>
         <div class="inline-actions">
             <button type="submit" class="button button--primary">Save language</button>
-            <a href="<?= e(app_url('settings.php')) ?>" class="button button--ghost">Back to settings</a>
+            <a href="<?= e(app_url('setting.php')) ?>" class="button button--ghost">Back to settings</a>
         </div>
     </form>
 </section>

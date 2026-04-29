@@ -9,7 +9,6 @@ if (current_student() !== null) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    verify_csrf_or_abort();
     remember_old_input($_POST);
 
     $result = app()->studentAuth()->register(

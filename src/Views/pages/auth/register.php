@@ -5,7 +5,6 @@
     <p class="auth-card__meta">Register with your INTI student email. Accounts are activated immediately in V2.</p>
 
     <form method="POST" class="auth-form">
-        <?= csrf_field() ?>
         <div class="form-field">
             <label for="display_name">Full name</label>
             <input id="display_name" name="display_name" type="text" placeholder="Enter your name" value="<?= e((string) old('display_name')) ?>" required>

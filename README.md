@@ -31,7 +31,6 @@ The goal of this repository is to **preserve V1's UI and feature set pixel-for-p
 │       ├── partials/         # Sidebars, topbars, alerts
 │       └── pages/            # Per-page templates — V1 HTML lifted in here
 ├── admin/                    # Admin entry-point routers
-├── actions/                  # Form-post / API endpoints
 ├── storage/
 │   ├── database/app.sqlite   # SQLite database file (gitignored)
 │   └── logs/                 # Mail log placeholder

@@ -24,7 +24,6 @@
             <p class="eyebrow">Admin actions</p>
             <h2>User management</h2>
         </div>
-        <a class="button button--outline" href="<?= e(action_url('export_users.php' . ($search !== '' ? '?search=' . urlencode($search) : ''))) ?>">Export users CSV</a>
     </div>
     <form method="GET" class="filter-bar">
         <div class="form-field">
@@ -40,7 +39,6 @@
         <section class="detail-card">
             <h3>Edit user</h3>
             <form method="POST" class="stack-form">
-                <?= csrf_field() ?>
                 <input type="hidden" name="action" value="edit_user">
                 <input type="hidden" name="user_id" value="<?= e((string) $editingUser['id']) ?>">
                 <div class="form-grid form-grid--two">
@@ -100,7 +98,6 @@
                                     <a class="button button--ghost" href="<?= e(admin_url('dashboard.php?edit=' . $user['id'] . ($search !== '' ? '&search=' . urlencode($search) : ''))) ?>">Edit</a>
                                     <button type="button" class="button button--outline" data-toggle-target="#reset-<?= e((string) $user['id']) ?>">Reset password</button>
                                     <form method="POST" data-confirm="Delete this user and related bookings?">
-                                        <?= csrf_field() ?>
                                         <input type="hidden" name="action" value="delete_user">
                                         <input type="hidden" name="user_id" value="<?= e((string) $user['id']) ?>">
                                         <button class="button button--outline" type="submit">Delete</button>
@@ -108,7 +105,6 @@
                                 </div>
                                 <div id="reset-<?= e((string) $user['id']) ?>" hidden>
                                     <form method="POST" class="inline-password">
-                                        <?= csrf_field() ?>
                                         <input type="hidden" name="action" value="reset_password">
                                         <input type="hidden" name="user_id" value="<?= e((string) $user['id']) ?>">
                                         <div class="form-field">

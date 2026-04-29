@@ -9,7 +9,6 @@ require_admin();
 $currentAdmin = current_admin();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    verify_csrf_or_abort();
     if ((string) ($_POST['action'] ?? '') === 'cancel_booking') {
         $result = app()->bookingService()->cancelAdminRequest((string) ($_POST['request_token'] ?? ''));
         flash('message', $result['message'], $result['success'] ? 'success' : 'error');

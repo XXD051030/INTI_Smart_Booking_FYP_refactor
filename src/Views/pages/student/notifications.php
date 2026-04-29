@@ -6,7 +6,6 @@
             <h2>Notifications</h2>
         </div>
         <form method="POST">
-            <?= csrf_field() ?>
             <input type="hidden" name="action" value="mark_all_read">
             <button class="button button--outline" type="submit">Mark all as read</button>
         </form>
@@ -36,7 +35,6 @@
                     <span class="helper-text"><?= e(time_ago($notification['created_at'])) ?></span>
                     <?php if ((int) $notification['is_read'] === 0): ?>
                         <form method="POST">
-                            <?= csrf_field() ?>
                             <input type="hidden" name="action" value="mark_read">
                             <input type="hidden" name="notification_id" value="<?= e((string) $notification['id']) ?>">
                             <button class="button button--ghost" type="submit">Mark as read</button>

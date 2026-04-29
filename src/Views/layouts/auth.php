@@ -14,7 +14,7 @@
     <main class="auth-shell">
         <section class="auth-hero">
             <div class="auth-hero__logo">
-                <img src="<?= e(site_url('images/logo/inti_logo.png')) ?>" alt="INTI logo">
+                <img src="<?= e(asset_url('images/logo/inti_logo.png')) ?>" alt="INTI logo">
             </div>
             <div class="auth-hero__copy">
                 <p class="eyebrow">INTI Smart Booking</p>

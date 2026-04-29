@@ -14,7 +14,6 @@ if ($user === null) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    verify_csrf_or_abort();
     $language = (string) ($_POST['preferred_language'] ?? 'en');
     app()->users()->updateLanguage((int) $user['id'], $language === 'en' ? 'en' : 'en');
     $user = app()->users()->findById((int) $user['id']);

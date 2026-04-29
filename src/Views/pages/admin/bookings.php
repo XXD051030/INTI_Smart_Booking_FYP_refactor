@@ -5,7 +5,6 @@
             <p class="eyebrow">Booking status</p>
             <h2>Manage reservations</h2>
         </div>
-        <a class="button button--outline" href="<?= e(action_url('export_bookings.php?' . http_build_query(array_filter($filters)))) ?>">Export bookings CSV</a>
     </div>
     <form method="GET" class="filter-bar">
         <div class="form-field">
@@ -110,7 +109,6 @@
                                     <a class="button button--ghost" href="<?= e(admin_url('bookings.php?' . http_build_query(array_filter(array_merge($filters, ['request' => $booking['request_token']]))))) ?>">View</a>
                                     <?php if (($booking['status'] ?? '') === 'confirmed'): ?>
                                         <form method="POST" data-confirm="Cancel this booking request from the admin console?">
-                                            <?= csrf_field() ?>
                                             <input type="hidden" name="action" value="cancel_booking">
                                             <input type="hidden" name="request_token" value="<?= e($booking['request_token']) ?>">
                                             <button class="button button--outline" type="submit">Cancel</button>
