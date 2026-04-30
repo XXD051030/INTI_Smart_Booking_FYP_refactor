@@ -23,8 +23,17 @@ if ($configuredBase !== '') {
     if ($position !== false) {
         $appBaseUrl = substr($scriptName, 0, $position + 3);
     } else {
-        $directory = str_replace('\\', '/', dirname($scriptName));
-        $appBaseUrl = $directory === '/' ? '' : rtrim($directory, '/');
+        $scriptDir = str_replace('\\', '/', dirname($scriptName));
+        $entryScript = isset($_SERVER['SCRIPT_FILENAME']) ? realpath((string) $_SERVER['SCRIPT_FILENAME']) : false;
+        if ($entryScript !== false) {
+            $entryDir = str_replace('\\', '/', dirname($entryScript));
+            $appRootDir = str_replace('\\', '/', APP_ROOT);
+            $relative = str_starts_with($entryDir, $appRootDir) ? substr($entryDir, strlen($appRootDir)) : '';
+            if ($relative !== '' && $relative !== '/' && str_ends_with($scriptDir, $relative)) {
+                $scriptDir = substr($scriptDir, 0, -strlen($relative));
+            }
+        }
+        $appBaseUrl = ($scriptDir === '' || $scriptDir === '/') ? '' : rtrim($scriptDir, '/');
     }
 }
 
