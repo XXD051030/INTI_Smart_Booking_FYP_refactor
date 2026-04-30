@@ -1,53 +1,79 @@
+:root {
+    --inti-red: #f61f1f;
+    --inti-red-dark: #d41a1a;
+    --inti-red-soft: rgba(246, 31, 31, 0.08);
+    --inti-border: #eef0f4;
+    --inti-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+}
+
 body {
     background-color: #f8f9fa;
     font-family: 'Roboto', sans-serif;
 }
 
 .admin-header {
-    background: linear-gradient(135deg,rgb(246, 31, 31) 0%,rgb(229, 30, 30) 100%);
+    background: var(--inti-red);
     color: white;
     padding: 1rem 0;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04);
 }
 
 .admin-nav {
     background: white;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    padding: 1rem 0;
+    border-bottom: 1px solid var(--inti-border);
+    padding: 0.75rem 0;
 }
 
 .stats-card {
     background: white;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
+    border-radius: 12px;
+    box-shadow: var(--inti-shadow);
+    border: 1px solid var(--inti-border);
     border-left: 4px solid;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.25rem;
 }
 
 .stats-card.users { border-left-color: #28a745; }
-.stats-card.verified { border-left-color: rgb(246, 31, 31); }
+.stats-card.verified { border-left-color: var(--inti-red); }
 .stats-card.unverified { border-left-color: #ffc107; }
 .stats-card.otps { border-left-color: #dc3545; }
 
 .table-card {
     background: white;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    margin-bottom: 2rem;
+    border-radius: 12px;
+    box-shadow: var(--inti-shadow);
+    border: 1px solid var(--inti-border);
+    margin-bottom: 1.5rem;
     overflow: hidden;
 }
 
 .table-header {
-    background: linear-gradient(135deg, rgb(246, 31, 31) 0%, rgb(212, 26, 26) 100%);
-    color: white;
+    background: white;
+    color: #1f2937;
     padding: 1rem 1.5rem;
     margin: 0;
     font-weight: 600;
+    font-size: 1.05rem;
+    border-bottom: 1px solid var(--inti-border);
+}
+
+.table-header i {
+    color: var(--inti-red);
 }
 
 .table {
     margin-bottom: 0;
+}
+
+.table thead.table-light th {
+    background: #fafbfc;
+    color: #6b7280;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--inti-border);
 }
 
 .badge-verified {
@@ -59,13 +85,14 @@ body {
 }
 
 .btn-logout {
-    background: rgba(255,255,255,0.2);
-    border: 1px solid rgba(255,255,255,0.3);
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.35);
     color: white;
+    transition: background-color 0.15s ease;
 }
 
 .btn-logout:hover {
-    background: rgba(255,255,255,0.3);
+    background: rgba(255, 255, 255, 0.28);
     color: white;
 }
 

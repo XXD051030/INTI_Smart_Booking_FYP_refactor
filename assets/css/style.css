@@ -55,24 +55,20 @@ body {
     border-radius: 12px;
     margin-bottom: 25px;
     overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.07);
-    border: none;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+    border: 1px solid #eef0f4;
+    transition: box-shadow 0.15s ease;
 }
 .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
 }
 .profile-section {
     background-color: #fff;
     border-radius: 12px;
     padding: 25px;
     margin-bottom: 25px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s ease;
-}
-.profile-section:hover {
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+    border: 1px solid #eef0f4;
 }
 .profile-pic {
     width: 85px;
@@ -89,16 +85,12 @@ body {
 }
 .alert-reservation {
     background-color: #fffaf0;
+    border: 1px solid #f5e6c8;
     border-left: 4px solid #ffa726;
     border-radius: 10px;
     padding: 20px;
     margin-bottom: 30px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s ease;
-}
-.alert-reservation:hover {
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
 }
 .clock-icon {
     background-color: #ffa726;
