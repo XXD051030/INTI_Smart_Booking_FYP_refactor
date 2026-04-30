@@ -4,7 +4,7 @@ Layered rewrite of [INTI_Smart_Booking_FYP](https://github.com/XXD051030/INTI_Sm
 
 The goal of this repository is to **preserve V1's UI and feature set pixel-for-pixel** while replacing V1's flat procedural script layout with a clean layered structure (Repositories / Services / Views).
 
-> Status: Round 1 complete — V1 UI lifted verbatim onto a layered backend. See [Roadmap](#roadmap).
+> Status: Round 1 complete — V1 UI lifted verbatim onto a layered backend, plus a Round 1.5 visual polish pass. See [Roadmap](#roadmap).
 
 ---
 
@@ -98,6 +98,16 @@ V1's full HTML/CSS/JS surface lifted into V2's layered backend:
 3. **Notifications** — in-app notification feed + mark-read APIs
 4. **Admin** — dashboard, bookings management, CSV export
 5. **Static** — profile, settings, language, rules, support
+
+### Round 1.5 — Visual polish (complete)
+
+Targeted fixes after the verbatim port — V1's surface kept, but tightened where it visibly clashed with the INTI red brand:
+
+- **Calendar** — replaced the purple/glassmorphism shell with a flat white card; toolbar, today highlight, events, and stats all moved to the red palette.
+- **Admin pages** — flattened admin dashboard and admin-bookings cards/modals to match the calendar (lighter shadows, hairline borders, white headers with red icons).
+- **Booking & student pages** — softened heavy hover transforms and red-glow shadows on facility cards, time slots, and stat cards.
+- **Register flow** — server password rule realigned to V1's "6 chars + 1 digit" UI; server errors now render as a V1-style inline pill above the submit button instead of a floating banner.
+- **Logos** — `logowhite.png` swapped in on the two surfaces that sit on a red background (register hero, admin topbar) so the mark stays visible.
 
 ### Round 2 — Deferred
 
