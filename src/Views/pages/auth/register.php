@@ -175,6 +175,33 @@
             border-radius: 8px;
         }
 
+        .server-feedback {
+            margin-top: 0.25rem;
+            margin-bottom: 1rem;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .server-feedback.is-error {
+            background: #fdecec;
+            color: #a3140d;
+            border: 1px solid #f5c2bd;
+        }
+
+        .server-feedback.is-success {
+            background: #e7f7ec;
+            color: #19663a;
+            border: 1px solid #b8e3c5;
+        }
+
+        .server-feedback i {
+            font-size: 1rem;
+        }
+
         .requirement-list, .requirement-list-2, .requirement-list-3 {
             list-style: none;
             padding: 0;
@@ -355,6 +382,11 @@
                     <label for="terms">I agree to the <a href="#" target="_blank">Terms and Conditions</a> and <a href="#" target="_blank">Privacy Policy</a></label>
                 </div>
 
+                <div id="server-feedback" class="server-feedback">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <span id="server-feedback-text"></span>
+                </div>
+
                 <button type="submit" id="submit_btn" disabled>Create Account</button>
 
                 <div class="login-link">
@@ -367,10 +399,24 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('.right-section').prepend('<div id="response-message" style="margin-bottom: 20px; padding: 15px; border-radius: 8px; display: none; font-weight: 500;"></div>');
+            var $feedback = $('#server-feedback');
+            var $feedbackText = $('#server-feedback-text');
+            var $feedbackIcon = $feedback.find('i');
+
+            function showFeedback(type, message) {
+                $feedback
+                    .removeClass('is-error is-success')
+                    .addClass(type === 'success' ? 'is-success' : 'is-error');
+                $feedbackIcon
+                    .removeClass('fa-circle-exclamation fa-circle-check')
+                    .addClass(type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation');
+                $feedbackText.text(message);
+                $feedback.css('display', 'flex');
+            }
 
             $('#submit_btn').click(function(e) {
                 e.preventDefault();
+                $feedback.hide();
 
                 var formData = {
                     username: $('#username').val(),
@@ -385,37 +431,22 @@
                     data: formData,
                     dataType: 'json',
                     success: function(response) {
-                        var messageDiv = $('#response-message');
-                        messageDiv.show();
-
                         if (response.success) {
-                            messageDiv.css({
-                                'background-color': '#d4edda',
-                                'color': '#155724',
-                                'border': '1px solid #c3e6cb'
-                            });
-                            messageDiv.html(response.message);
+                            showFeedback('success', response.message);
                             setTimeout(function() {
                                 window.location.href = '<?= e(app_url('login.php')) ?>';
                             }, 1200);
                         } else {
-                            messageDiv.css({
-                                'background-color': '#f8d7da',
-                                'color': '#721c24',
-                                'border': '1px solid #f5c6cb'
-                            });
-                            messageDiv.html(response.message);
+                            showFeedback('error', response.message);
                         }
                     },
-                    error: function(xhr, status, error) {
-                        var messageDiv = $('#response-message');
-                        messageDiv.show();
-                        messageDiv.css({
-                            'background-color': '#f8d7da',
-                            'color': '#721c24',
-                            'border': '1px solid #f5c6cb'
-                        });
-                        messageDiv.html('Error: ' + xhr.responseText);
+                    error: function(xhr) {
+                        var msg = 'Something went wrong. Please try again.';
+                        try {
+                            var parsed = JSON.parse(xhr.responseText);
+                            if (parsed && parsed.message) msg = parsed.message;
+                        } catch (e) {}
+                        showFeedback('error', msg);
                     }
                 });
             });
