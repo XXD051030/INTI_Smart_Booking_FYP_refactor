@@ -367,7 +367,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('.right-section').append('<div id="response-message" style="margin-top: 20px; padding: 15px; border-radius: 8px; display: none;"></div>');
+            $('.right-section').prepend('<div id="response-message" style="margin-bottom: 20px; padding: 15px; border-radius: 8px; display: none; font-weight: 500;"></div>');
 
             $('#submit_btn').click(function(e) {
                 e.preventDefault();

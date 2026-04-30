@@ -37,8 +37,12 @@ final class StudentAuthService
             return ['success' => false, 'message' => 'Password confirmation does not match.'];
         }
 
-        if (strlen($password) < 8) {
-            return ['success' => false, 'message' => 'Password must be at least 8 characters long.'];
+        if (strlen($password) < 6) {
+            return ['success' => false, 'message' => 'Password must be at least 6 characters long.'];
+        }
+
+        if (!preg_match('/[0-9]/', $password)) {
+            return ['success' => false, 'message' => 'Password must contain at least one number.'];
         }
 
         if ($this->users->findByEmail($email) !== null) {
