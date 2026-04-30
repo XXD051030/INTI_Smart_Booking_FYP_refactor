@@ -33,10 +33,14 @@ function e(string|null $value): string
 
 function app_url(string $path = ''): string
 {
-    $prefix = APP_BASE_URL ?: '/v2';
+    $prefix = APP_BASE_URL;
     $path = ltrim($path, '/');
 
-    return $path === '' ? $prefix : $prefix . '/' . $path;
+    if ($path === '') {
+        return $prefix === '' ? '/' : $prefix;
+    }
+
+    return $prefix . '/' . $path;
 }
 
 function admin_url(string $path = ''): string
