@@ -284,7 +284,7 @@
     <div class="page-container">
         <div class="left-section">
           <div style="text-align: center; margin-bottom: 30px;">
-            <img src="<?= e(asset_url('images/logo/inti_logo.png')) ?>" alt="INTI Logo" style="height: 60px; width: auto;">
+            <img src="<?= e(asset_url('images/logo/logowhite.png')) ?>" alt="INTI Logo" style="height: 60px; width: auto;">
           </div>
           <h1 class="welcome-text">Welcome to INTI Reservation System</h1>
           <p class="welcome-subtext">
