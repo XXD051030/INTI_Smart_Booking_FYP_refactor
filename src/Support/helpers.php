@@ -133,6 +133,23 @@ function require_admin(): void
     }
 }
 
+function json_response(array $payload, int $status = 200): never
+{
+    http_response_code($status);
+    header('Content-Type: application/json');
+    echo json_encode($payload);
+    exit;
+}
+
+function require_student_json(): array
+{
+    $student = Auth::student();
+    if ($student === null) {
+        json_response(['success' => false, 'message' => 'User not logged in'], 401);
+    }
+    return $student;
+}
+
 function student_id_from_email(string $email): string
 {
     return strtoupper((string) strtok($email, '@'));

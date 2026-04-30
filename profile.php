@@ -14,17 +14,11 @@ if ($user === null) {
 }
 
 \V2\Support\Auth::loginStudent($user);
-$bookings = app()->bookings()->groupedForUser((int) $user['id']);
-$now = new DateTimeImmutable();
 
 app()->view()->render('student/profile', [
-    'pageTitle' => 'Profile',
-    'pageHeading' => 'Profile',
+    'pageTitle' => 'Profile - INTI Reservation System',
+    'headerTitle' => 'Reservation Dashboard',
     'activeNav' => 'settings',
     'currentUser' => $user,
     'notificationCount' => app()->notificationService()->unreadCount((int) $user['id']),
-    'stats' => [
-        'total' => count($bookings),
-        'upcoming' => count(array_filter($bookings, static fn (array $booking): bool => ($booking['status'] ?? '') === 'confirmed' && new DateTimeImmutable($booking['booking_date'] . ' ' . $booking['start_time']) > $now)),
-    ],
 ], 'student');

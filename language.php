@@ -13,20 +13,11 @@ if ($user === null) {
     redirect('login.php');
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $language = (string) ($_POST['preferred_language'] ?? 'en');
-    app()->users()->updateLanguage((int) $user['id'], $language === 'en' ? 'en' : 'en');
-    $user = app()->users()->findById((int) $user['id']);
-    \V2\Support\Auth::loginStudent($user);
-    flash('message', 'Language preference updated.');
-    redirect('language.php');
-}
-
 \V2\Support\Auth::loginStudent($user);
 
 app()->view()->render('student/language', [
-    'pageTitle' => 'Language',
-    'pageHeading' => 'Language',
+    'pageTitle' => 'Language - INTI Reservation System',
+    'headerTitle' => 'Reservation Dashboard',
     'activeNav' => 'settings',
     'currentUser' => $user,
     'notificationCount' => app()->notificationService()->unreadCount((int) $user['id']),

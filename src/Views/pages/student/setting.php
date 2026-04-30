@@ -1,29 +1,64 @@
 <?php declare(strict_types=1); ?>
-<section class="hero-block">
-    <p class="eyebrow">Preferences</p>
-    <h2>Settings</h2>
-    <p>Keep the design structure from the prototype while grouping profile, language, support, and rules into one calm control surface.</p>
-</section>
+<div class="profile-section">
+    <h3><i class="fas fa-cog me-2"></i>Settings</h3>
+</div>
 
-<section class="settings-grid">
-    <article class="settings-card">
-        <h3>Profile</h3>
-        <p>View your name, derived student ID, email, and booking summary.</p>
-        <a class="button button--outline" href="<?= e(app_url('profile.php')) ?>">View profile</a>
-    </article>
-    <article class="settings-card">
-        <h3>Language</h3>
-        <p>English is active for V2, with structure ready for future translations.</p>
-        <a class="button button--outline" href="<?= e(app_url('language.php')) ?>">Change language</a>
-    </article>
-    <article class="settings-card">
-        <h3>Support</h3>
-        <p>Keep the contact card and support details in one obvious place for students.</p>
-        <a class="button button--outline" href="<?= e(app_url('support.php')) ?>">Get support</a>
-    </article>
-    <article class="settings-card">
-        <h3>Rules</h3>
-        <p>Review the active booking policies, booking limits, and cancellation windows.</p>
-        <a class="button button--outline" href="<?= e(app_url('rules.php')) ?>">View rules</a>
-    </article>
-</section>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-user text-primary me-2"></i>Profile
+                </h5>
+                <p class="card-text">Manage your personal information and account details.</p>
+                <a href="<?= e(app_url('profile.php')) ?>" class="btn btn-primary">
+                    <i class="fas fa-arrow-right me-1"></i>View Profile
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-language text-primary me-2"></i>Language
+                </h5>
+                <p class="card-text">Choose your preferred language for the interface.</p>
+                <a href="<?= e(app_url('language.php')) ?>" class="btn btn-primary">
+                    <i class="fas fa-arrow-right me-1"></i>Change Language
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-question-circle text-primary me-2"></i>Support
+                </h5>
+                <p class="card-text">Get help and contact support for any issues.</p>
+                <a href="<?= e(app_url('support.php')) ?>" class="btn btn-primary">
+                    <i class="fas fa-arrow-right me-1"></i>Get Support
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-file-alt text-primary me-2"></i>Rules
+                </h5>
+                <p class="card-text">Review the rules and regulations for facility booking.</p>
+                <a href="<?= e(app_url('rules.php')) ?>" class="btn btn-primary">
+                    <i class="fas fa-arrow-right me-1"></i>View Rules
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

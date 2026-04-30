@@ -164,6 +164,40 @@ final class BookingRepository
         return (int) $this->pdo->query('SELECT COUNT(DISTINCT request_token) FROM bookings')->fetchColumn();
     }
 
+    public function findRequestTokenByBookingId(int $bookingId, ?int $userId = null): ?string
+    {
+        $sql = 'SELECT request_token FROM bookings WHERE id = :id';
+        $params = [':id' => $bookingId];
+        if ($userId !== null) {
+            $sql .= ' AND user_id = :user_id';
+            $params[':user_id'] = $userId;
+        }
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute($params);
+        $token = $statement->fetchColumn();
+        return $token === false ? null : (string) $token;
+    }
+
+    public function bookingIdsForRequestToken(string $requestToken): array
+    {
+        $statement = $this->pdo->prepare('SELECT id FROM bookings WHERE request_token = :request_token ORDER BY start_time');
+        $statement->execute([':request_token' => $requestToken]);
+        return array_map('intval', $statement->fetchAll(PDO::FETCH_COLUMN));
+    }
+
+    public function listConfirmedEvents(?int $facilityId = null): array
+    {
+        $sql = 'SELECT b.id AS booking_id, b.booking_date, b.start_time, b.end_time, f.name AS facility_name FROM bookings b INNER JOIN facilities f ON f.id = b.facility_id WHERE b.status = :status';
+        $params = [':status' => 'confirmed'];
+        if ($facilityId !== null) {
+            $sql .= ' AND b.facility_id = :facility_id';
+            $params[':facility_id'] = $facilityId;
+        }
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute($params);
+        return $statement->fetchAll();
+    }
+
     private function baseGroupedQuery(): string
     {
         return "

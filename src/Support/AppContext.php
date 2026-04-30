@@ -73,6 +73,11 @@ final class AppContext
         return $this->config;
     }
 
+    public function pdo(): PDO
+    {
+        return $this->pdo;
+    }
+
     public function view(): View
     {
         return $this->view;

@@ -4,7 +4,7 @@ Layered rewrite of [INTI_Smart_Booking_FYP](https://github.com/XXD051030/INTI_Sm
 
 The goal of this repository is to **preserve V1's UI and feature set pixel-for-pixel** while replacing V1's flat procedural script layout with a clean layered structure (Repositories / Services / Views).
 
-> Status: Round 1 in progress — porting core student & admin features. See [Roadmap](#roadmap).
+> Status: Round 1 complete — V1 UI lifted verbatim onto a layered backend. See [Roadmap](#roadmap).
 
 ---
 
@@ -89,22 +89,22 @@ This refactor mirrors V1 as faithfully as possible, including some weaknesses th
 
 ## Roadmap
 
-### Round 1 — Core port (in progress)
+### Round 1 — Core port (complete)
 
-End-to-end port of these domains, in this order:
+V1's full HTML/CSS/JS surface lifted into V2's layered backend:
 
 1. **Auth** — register, login, logout
 2. **Bookings** — booking form, my bookings, calendar, availability API
-3. **Notifications** — in-app notifications page + APIs
-4. **Admin** — dashboard, bookings management
+3. **Notifications** — in-app notification feed + mark-read APIs
+4. **Admin** — dashboard, bookings management, CSV export
+5. **Static** — profile, settings, language, rules, support
 
-### Round 2 — Peripheral & deferred
+### Round 2 — Deferred
 
-- Profile, settings, rules, support pages
-- Admin actions module
 - OTP email verification (re-enabled)
 - Multi-language UI (re-enabled)
 - Security hardening (CSRF, rate limiting)
+- Real mail delivery
 
 ## License
 

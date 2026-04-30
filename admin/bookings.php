@@ -7,33 +7,17 @@ require dirname(__DIR__) . '/bootstrap.php';
 require_admin();
 
 $currentAdmin = current_admin();
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if ((string) ($_POST['action'] ?? '') === 'cancel_booking') {
-        $result = app()->bookingService()->cancelAdminRequest((string) ($_POST['request_token'] ?? ''));
-        flash('message', $result['message'], $result['success'] ? 'success' : 'error');
-    }
-
-    redirect('admin/bookings.php' . (!empty($_GET) ? '?' . http_build_query($_GET) : ''));
-}
-
-$filters = [
-    'date' => (string) ($_GET['date'] ?? date('Y-m-d')),
-    'status' => (string) ($_GET['status'] ?? ''),
-    'facility_id' => (string) ($_GET['facility_id'] ?? ''),
-    'search' => trim((string) ($_GET['search'] ?? '')),
-];
-
-$bookings = app()->bookings()->groupedForAdmin($filters);
-$selectedBooking = isset($_GET['request']) ? app()->bookings()->findGroupedByToken((string) $_GET['request']) : null;
+$facilities = app()->facilities()->allActive();
+$timeSlots = ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00'];
+$today = date('Y-m-d');
 
 app()->view()->render('admin/bookings', [
-    'pageTitle' => 'Booking Status',
-    'pageHeading' => 'Booking Status',
+    'pageTitle' => 'Booking Management - Admin Dashboard',
+    'adminHeaderTitle' => 'Booking Management',
     'activeNav' => 'bookings',
     'currentAdmin' => $currentAdmin,
-    'bookings' => $bookings,
-    'selectedBooking' => $selectedBooking,
-    'facilities' => app()->facilities()->allActive(),
-    'filters' => $filters,
+    'facilities' => $facilities,
+    'timeSlots' => $timeSlots,
+    'today' => $today,
+    'pageStyles' => ['admin-bookings.css'],
 ], 'admin');

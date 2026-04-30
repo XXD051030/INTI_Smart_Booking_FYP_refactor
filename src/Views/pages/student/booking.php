@@ -1,133 +1,207 @@
 <?php declare(strict_types=1); ?>
-<section class="split-layout" data-booking-panel data-max-slots="<?= e((string) $maxSlots) ?>">
-    <div class="booking-sidebar">
-        <article class="panel">
-            <p class="eyebrow">Select facilities</p>
-            <h2>Book facilities</h2>
-            <div class="filter-pills">
-                <?php foreach ($facilityTypes as $typeKey => $typeLabel): ?>
-                    <a href="<?= e(app_url('booking.php?' . http_build_query(array_filter(['type' => $typeKey === 'all' ? null : $typeKey, 'facility' => $selectedFacility['id'] ?? null, 'date' => $selectedDate ?: null])))) ?>" class="<?= $activeType === $typeKey ? 'is-active' : '' ?>">
-                        <?= e($typeLabel) ?>
-                    </a>
+<!-- Booking Alert -->
+<div id="booking-alert" class="alert alert-info d-none">
+    <i class="fas fa-info-circle me-2"></i>
+    <span id="alert-message"></span>
+</div>
+
+<div class="row">
+    <!-- Left Panel: Facility Selection -->
+    <div class="col-lg-4">
+        <div class="facility-section">
+            <h4 class="section-title">
+                <i class="fas fa-building me-2"></i>Select Facility
+            </h4>
+
+            <!-- Facility Type Filter -->
+            <div class="facility-filter mb-4">
+                <div class="btn-group w-100" role="group">
+                    <button type="button" class="btn btn-outline-primary active" data-filter="all">
+                        All
+                    </button>
+                    <button type="button" class="btn btn-outline-primary" data-filter="discussion_room">
+                        Discussion Room
+                    </button>
+                    <button type="button" class="btn btn-outline-primary" data-filter="basketball_court">
+                        Sport
+                    </button>
+                    <button type="button" class="btn btn-outline-primary" data-filter="stem_lab">
+                        STEM
+                    </button>
+                </div>
+            </div>
+
+            <!-- Facility Cards -->
+            <div class="facility-list">
+                <?php foreach ($facilities as $facility): ?>
+                <div class="facility-card"
+                     data-facility-id="<?= e((string) $facility['id']) ?>"
+                     data-facility-type="<?= e((string) $facility['type']) ?>"
+                     data-advance-days="<?= e((string) $facility['advance_booking_days']) ?>">
+                    <div class="facility-image">
+                        <img src="<?= e(asset_url($facility['image_path'])) ?>"
+                             alt="<?= e((string) $facility['name']) ?>">
+                    </div>
+                    <div class="facility-info">
+                        <h5><?= e((string) $facility['name']) ?></h5>
+                        <p class="facility-details">
+                            <i class="fas fa-users me-1"></i> Capacity: <?= e((string) $facility['capacity']) ?>
+                        </p>
+                        <p class="facility-details">
+                            <i class="fas fa-map-marker-alt me-1"></i> <?= e((string) $facility['location']) ?>
+                        </p>
+                        <p class="facility-booking-rule">
+                            <i class="fas fa-clock me-1"></i>
+                            <?php if ((int) $facility['advance_booking_days'] === 0): ?>
+                                Same-day booking only
+                            <?php else: ?>
+                                Book up to <?= e((string) $facility['advance_booking_days']) ?> day(s) in advance
+                            <?php endif; ?>
+                        </p>
+                    </div>
+                </div>
                 <?php endforeach; ?>
             </div>
-        </article>
-
-        <div class="booking-grid">
-            <?php foreach ($facilities as $facility): ?>
-                <article class="facility-card">
-                    <div class="facility-card__image">
-                        <img src="<?= e(asset_url($facility['image_path'])) ?>" alt="<?= e($facility['name']) ?>">
-                    </div>
-                    <div class="facility-card__body">
-                        <h3><?= e($facility['name']) ?></h3>
-                        <div class="facility-card__meta">
-                            <span>Capacity: <?= e((string) $facility['capacity']) ?></span>
-                            <span><?= e($facility['location']) ?></span>
-                            <span><?= (int) $facility['advance_booking_days'] === 0 ? 'Same day booking only' : 'Up to ' . e((string) $facility['advance_booking_days']) . ' day(s) in advance' ?></span>
-                        </div>
-                        <div class="panel-footer">
-                            <a class="button <?= ($selectedFacility['id'] ?? null) === $facility['id'] ? 'button--primary' : 'button--outline' ?>" href="<?= e(app_url('booking.php?' . http_build_query(array_filter(['facility' => $facility['id'], 'type' => $activeType !== 'all' ? $activeType : null, 'date' => $selectedDate ?: null])))) ?>">
-                                <?= ($selectedFacility['id'] ?? null) === $facility['id'] ? 'Selected' : 'Choose facility' ?>
-                            </a>
-                        </div>
-                    </div>
-                </article>
-            <?php endforeach; ?>
         </div>
     </div>
 
-    <div class="booking-stage">
-        <?php if ($selectedFacility === null): ?>
-            <div class="empty-state">
-                <h3>Select a facility to start booking</h3>
-                <p>Choose from the available facilities on the left to begin your reservation flow.</p>
-            </div>
-        <?php else: ?>
-            <article class="surface">
-                <p class="eyebrow">Booking</p>
-                <h2><?= e($selectedFacility['name']) ?></h2>
-                <div class="detail-grid">
-                    <article class="detail-card">
-                        <strong>Capacity</strong>
-                        <p><?= e((string) $selectedFacility['capacity']) ?> people</p>
-                    </article>
-                    <article class="detail-card">
-                        <strong>Location</strong>
-                        <p><?= e($selectedFacility['location']) ?></p>
-                    </article>
-                    <article class="detail-card">
-                        <strong>Operating hours</strong>
-                        <p><?= e(format_time_range($selectedFacility['operating_start_time'], $selectedFacility['operating_end_time'])) ?></p>
-                    </article>
-                    <article class="detail-card">
-                        <strong>Booking rule</strong>
-                        <p><?= (int) $selectedFacility['advance_booking_days'] === 0 ? 'Same day booking only' : 'Up to ' . e((string) $selectedFacility['advance_booking_days']) . ' day(s) in advance' ?></p>
-                    </article>
+    <!-- Right Panel: Booking Interface -->
+    <div class="col-lg-8">
+        <div class="booking-section">
+            <!-- Selected Facility Display -->
+            <div id="selected-facility" class="selected-facility-info d-none">
+                <h4 class="section-title">
+                    <i class="fas fa-calendar-check me-2"></i>Book <span id="selected-facility-name"></span>
+                </h4>
+                <div class="facility-summary">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Capacity:</strong> <span id="selected-facility-capacity"></span> people</p>
+                            <p><strong>Location:</strong> <span id="selected-facility-location"></span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Hours:</strong> 08:00 - 17:00</p>
+                            <p><strong>Booking rule:</strong> <span id="selected-facility-rule"></span></p>
+                        </div>
+                    </div>
                 </div>
-            </article>
+            </div>
 
-            <article class="panel">
-                <form method="GET" class="stack-form">
-                    <input type="hidden" name="facility" value="<?= e((string) $selectedFacility['id']) ?>">
-                    <?php if ($activeType !== 'all'): ?>
-                        <input type="hidden" name="type" value="<?= e($activeType) ?>">
-                    <?php endif; ?>
-                    <div class="form-field">
-                        <label for="date">Select date</label>
-                        <input type="date" id="date" name="date" value="<?= e($selectedDate) ?>" min="<?= e($dateBounds['min']) ?>" max="<?= e($dateBounds['max']) ?>" required>
+            <!-- Date Selection -->
+            <div id="date-selection" class="date-section d-none">
+                <h5>Select Date</h5>
+                <div class="date-input-group">
+                    <input type="date" id="booking-date" class="form-control" min="">
+                    <small class="form-text text-muted">
+                        You can book up to <span id="max-days-text">0</span> day(s) in advance.
+                    </small>
+                    <div class="alert alert-info mt-2 d-none" id="date-help-alert">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Note:</strong> Please choose a date within the allowed booking range.
                     </div>
-                    <button class="button button--outline" type="submit">Load availability</button>
+                </div>
+            </div>
+
+            <!-- Time Slot Selection -->
+            <div id="time-selection" class="time-section d-none">
+                <h5>Select Time</h5>
+                <div class="alert alert-info mb-3">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <strong>Multiple bookings:</strong> You can select up to 2 consecutive time slots.
+                    Click on available slots to select them.
+                </div>
+                <div class="time-grid" id="time-grid">
+                    <!-- Time slots will be generated by JavaScript -->
+                </div>
+                <div class="time-legend mt-3">
+                    <div class="d-flex flex-wrap gap-3">
+                        <div class="legend-item">
+                            <span class="legend-color available"></span>
+                            <small>Available</small>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color booked"></span>
+                            <small>Booked</small>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color selected"></span>
+                            <small>Selected</small>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color disabled"></span>
+                            <small>Unavailable</small>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color" style="background-color: #f8f9fa; border-color: #dee2e6; opacity: 0.6;"></span>
+                            <small>Non-consecutive</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Booking Form -->
+            <div id="booking-form-section" class="booking-form d-none">
+                <h5>Booking Details</h5>
+                <form id="booking-form">
+                    <div class="mb-3">
+                        <label for="booking-purpose" class="form-label">Purpose</label>
+                        <textarea class="form-control" id="booking-purpose" rows="3"
+                                placeholder="Please describe the purpose of your booking (minimum 10 characters)"
+                                maxlength="500" required></textarea>
+                        <div class="form-text">
+                            <span id="char-count">0</span>/500
+                        </div>
+                    </div>
+
+                    <!-- Booking Summary -->
+                    <div class="booking-summary mb-4">
+                        <h6>Booking Summary</h6>
+                        <div class="summary-content">
+                            <p><strong>Facility:</strong> <span id="summary-facility">-</span></p>
+                            <p><strong>Date:</strong> <span id="summary-date">-</span></p>
+                            <p><strong>Time:</strong> <span id="summary-time">-</span></p>
+                            <p><strong>Duration:</strong> <span id="summary-duration">1 hour</span></p>
+                        </div>
+                    </div>
+
+                    <!-- Daily Booking Limit Notice -->
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Daily limit:</strong> You can make up to 2 booking requests per day.
+                        <span id="daily-booking-count"></span>
+                    </div>
+
+                    <div class="booking-actions">
+                        <button type="button" class="btn btn-secondary me-2" id="reset-booking">
+                            <i class="fas fa-undo me-1"></i> Reset
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="confirm-booking">
+                            <i class="fas fa-check me-1"></i> Confirm Booking
+                        </button>
+                    </div>
                 </form>
-            </article>
+            </div>
 
-            <?php if ($selectedDate !== ''): ?>
-                <article class="panel">
-                    <div class="calendar-toolbar">
-                        <div>
-                            <p class="eyebrow">Availability</p>
-                            <h2><?= e(format_long_date($selectedDate)) ?></h2>
-                        </div>
-                        <span class="status-badge is-complete">Daily requests used: <?= e((string) $dailyRequestCount) ?>/<?= e((string) $dailyLimit) ?></span>
-                    </div>
-
-                    <?php if ($availability === []): ?>
-                        <div class="empty-state">
-                            <h3>No time slots to show</h3>
-                            <p>Select a valid date within the facility booking window.</p>
-                        </div>
-                    <?php else: ?>
-                        <form method="POST" class="stack-form">
-                            <input type="hidden" name="action" value="create_booking">
-                            <input type="hidden" name="facility_id" value="<?= e((string) $selectedFacility['id']) ?>">
-                            <input type="hidden" name="booking_date" value="<?= e($selectedDate) ?>">
-                            <div class="slot-grid">
-                                <?php foreach ($availability as $slot): ?>
-                                    <label class="slot-pill <?= $slot['available'] ? '' : 'is-disabled' ?>">
-                                        <input
-                                            type="checkbox"
-                                            name="slots[]"
-                                            value="<?= e($slot['start_time']) ?>"
-                                            data-slot-input
-                                            <?= $slot['available'] ? '' : 'disabled' ?>
-                                        >
-                                        <span><?= e(format_time_range($slot['start_time'], $slot['end_time'])) ?></span>
-                                    </label>
-                                <?php endforeach; ?>
-                            </div>
-                            <p class="form-help" data-slot-warning hidden>Selected slots must stay consecutive.</p>
-                            <div class="form-field">
-                                <label for="purpose">Purpose</label>
-                                <textarea id="purpose" name="purpose" placeholder="Describe the purpose of this booking." required><?= e((string) old('purpose')) ?></textarea>
-                            </div>
-                            <div class="inline-actions">
-                                <button class="button button--primary" type="submit">Confirm booking</button>
-                                <a class="button button--ghost" href="<?= e(app_url('my_bookings.php')) ?>">View my bookings</a>
-                            </div>
-                        </form>
-                    <?php endif; ?>
-                </article>
-            <?php endif; ?>
-        <?php endif; ?>
+            <!-- Initial State -->
+            <div id="initial-state" class="text-center py-5">
+                <i class="fas fa-hand-pointer text-muted" style="font-size: 4rem;"></i>
+                <h4 class="text-muted mt-3">Select a facility to begin</h4>
+                <p class="text-muted">Pick a facility from the left to choose a date and time slot.</p>
+            </div>
+        </div>
     </div>
-</section>
+</div>
+
+<!-- Loading Modal -->
+<div class="modal fade" id="loadingModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center py-4">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="mt-3">Processing booking...</div>
+            </div>
+        </div>
+    </div>
+</div>

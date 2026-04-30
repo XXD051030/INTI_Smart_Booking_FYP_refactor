@@ -4,26 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= e(($pageTitle ?? 'Dashboard') . ' | INTI Booking V2') ?></title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="<?= e(asset_url('css/app.css')) ?>">
+    <title><?= e($pageTitle ?? 'Reservation Dashboard') ?></title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="<?= e(asset_url('css/style.css')) ?>">
+    <?php foreach (($pageStyles ?? []) as $style): ?>
+        <link rel="stylesheet" href="<?= e(asset_url('css/' . $style)) ?>">
+    <?php endforeach; ?>
+    <?php foreach (($pageHeadAssets ?? []) as $asset): ?>
+        <?= $asset ?>
+    <?php endforeach; ?>
 </head>
-<body class="app-body">
-    <div class="app-shell">
-        <?php include APP_ROOT . '/src/Views/partials/student_sidebar.php'; ?>
-        <div class="app-main">
-            <?php include APP_ROOT . '/src/Views/partials/student_topbar.php'; ?>
-            <main class="app-content">
+<body>
+    <div class="container-fluid p-0">
+        <?php include APP_ROOT . '/src/Views/partials/student_topbar.php'; ?>
+        <div class="row g-0">
+            <?php include APP_ROOT . '/src/Views/partials/student_sidebar.php'; ?>
+            <div class="col-md-9 col-lg-10 p-4">
                 <?php include APP_ROOT . '/src/Views/partials/alerts.php'; ?>
                 <?= $content ?>
-            </main>
+            </div>
         </div>
     </div>
-    <script src="<?= e(asset_url('js/app.js')) ?>" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="<?= e(asset_url('js/notifications.js')) ?>"></script>
     <?php foreach (($pageScripts ?? []) as $script): ?>
-        <script src="<?= e(asset_url('js/' . $script)) ?>" defer></script>
+        <script src="<?= e(asset_url('js/' . $script)) ?>"></script>
+    <?php endforeach; ?>
+    <?php foreach (($pageInlineScripts ?? []) as $script): ?>
+        <script><?= $script ?></script>
     <?php endforeach; ?>
 </body>
 </html>

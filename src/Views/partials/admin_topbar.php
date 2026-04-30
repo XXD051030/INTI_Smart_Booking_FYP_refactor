@@ -1,14 +1,17 @@
 <?php declare(strict_types=1); ?>
-<header class="topbar admin-topbar">
-    <button type="button" class="topbar__menu" data-sidebar-toggle aria-label="Toggle navigation">Menu</button>
-    <div>
-        <p class="topbar__kicker">Admin portal</p>
-        <h1><?= e($pageHeading ?? 'Dashboard') ?></h1>
-    </div>
-    <div class="topbar__actions">
-        <div class="topbar__identity">
-            <span><?= e($currentAdmin['display_name'] ?? 'Admin') ?></span>
-            <a href="<?= e(admin_url('logout.php')) ?>">Logout</a>
+<div class="admin-header">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <img src="<?= e(asset_url('images/logo/inti_logo.png')) ?>" alt="INTI Logo" class="admin-logo">
+                <h3 class="mb-0"><?= e($adminHeaderTitle ?? 'Admin Dashboard') ?></h3>
+            </div>
+            <div class="d-flex align-items-center">
+                <span class="me-3">Welcome, <?= e((string) ($currentAdmin['display_name'] ?? 'Admin')) ?></span>
+                <a href="<?= e(admin_url('logout.php')) ?>" class="btn btn-logout">
+                    <i class="fas fa-sign-out-alt me-2"></i>Logout
+                </a>
+            </div>
         </div>
     </div>
-</header>
+</div>

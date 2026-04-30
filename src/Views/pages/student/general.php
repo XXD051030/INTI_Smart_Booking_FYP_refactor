@@ -1,70 +1,54 @@
 <?php declare(strict_types=1); ?>
-<section class="hero-split">
-    <article class="hero-block">
-        <p class="eyebrow">Reservation dashboard</p>
-        <h2><?= e($currentUser['display_name']) ?></h2>
-        <p>Your booking workspace keeps rooms, labs, courts, and notifications in one focused flow.</p>
-        <div class="status-strip">
-            <span class="status-badge is-complete">Student ID: <?= e(student_id_from_email($currentUser['email'])) ?></span>
-            <span class="status-badge is-confirmed"><?= e((string) $notificationCount) ?> unread notifications</span>
-        </div>
-    </article>
-    <article class="surface">
-        <h2>Quick status</h2>
-        <div class="detail-list">
-            <div><strong>Email</strong><span><?= e($currentUser['email']) ?></span></div>
-            <div><strong>Language</strong><span><?= e(strtoupper($currentUser['preferred_language'])) ?></span></div>
-            <div><strong>Upcoming bookings</strong><span><?= e((string) $stats['upcoming']) ?></span></div>
-            <div><strong>Total requests</strong><span><?= e((string) $stats['total']) ?></span></div>
-        </div>
-    </article>
-</section>
-
-<section class="stats-grid">
-    <article>
-        <p>Total bookings</p>
-        <strong><?= e((string) $stats['total']) ?></strong>
-    </article>
-    <article>
-        <p>Confirmed</p>
-        <strong><?= e((string) $stats['confirmed']) ?></strong>
-    </article>
-    <article>
-        <p>Completed</p>
-        <strong><?= e((string) $stats['completed']) ?></strong>
-    </article>
-    <article>
-        <p>Cancelled</p>
-        <strong><?= e((string) $stats['cancelled']) ?></strong>
-    </article>
-</section>
-
-<section class="panel">
-    <div class="calendar-toolbar">
-        <div>
-            <p class="eyebrow">Book by venue</p>
-            <h2>Choose your facility</h2>
-        </div>
-        <a class="button button--primary" href="<?= e(app_url('booking.php')) ?>">Open booking workspace</a>
+<!-- Profile Section -->
+<div class="profile-section d-flex">
+    <div class="profile-pic">
+        <i class="fas fa-user"></i>
     </div>
-    <div class="facility-grid">
-        <?php foreach ($facilities as $facility): ?>
-            <article class="facility-card">
-                <div class="facility-card__image">
-                    <img src="<?= e(asset_url($facility['image_path'])) ?>" alt="<?= e($facility['name']) ?>">
-                </div>
-                <div class="facility-card__body">
-                    <h3><?= e($facility['name']) ?></h3>
-                    <div class="facility-card__meta">
-                        <span>Capacity: <?= e((string) $facility['capacity']) ?></span>
-                        <span><?= e($facility['location']) ?></span>
-                        <span>Advance rule: <?= e((string) $facility['advance_booking_days']) ?> day(s)</span>
-                    </div>
-                    <div class="panel-footer">
-                        <a class="button button--outline" href="<?= e(app_url('booking.php?facility=' . $facility['id'])) ?>">Book now</a>
-                    </div>
-                </div>
-            </article>
-        <?php endforeach; ?>
+    <div>
+        <h3><?= e((string) $currentUser['display_name']) ?></h3>
+        <p class="mb-1">Email: <?= e((string) $currentUser['email']) ?></p>
+        <p class="mb-1">Status: No appointment</p>
+        <p class="mb-0">Credit: <span class="text-success">Good <img src="<?= e(asset_url('images/assets/green_tick.png')) ?>" alt="Good" width="20"></span></p>
     </div>
-</section>
+</div>
+
+
+<!-- Places Section -->
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="place-card card">
+            <img src="<?= e(asset_url('images/place/discussion_room.jpg')) ?>" alt="Discussion Room">
+            <div class="content">
+                <h3>Discussion Room</h3>
+                <a href="<?= e(app_url('booking.php')) ?>" class="btn-book">
+                    <i class="fas fa-plus me-1"></i> Book Now
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="place-card card">
+            <img src="<?= e(asset_url('images/place/basketball_court.jpg')) ?>" alt="Sport Facilities">
+            <div class="content">
+                <h3>Sport Facilities</h3>
+                <a href="<?= e(app_url('booking.php')) ?>" class="btn-book">
+                    <i class="fas fa-plus me-1"></i> Book Now
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-6">
+        <div class="place-card card">
+            <img src="<?= e(asset_url('images/place/stem_lab.jpg')) ?>" alt="STEM Lab">
+            <div class="content">
+                <h3>STEM Lab</h3>
+                <a href="<?= e(app_url('booking.php')) ?>" class="btn-book">
+                    <i class="fas fa-plus me-1"></i> Book Now
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

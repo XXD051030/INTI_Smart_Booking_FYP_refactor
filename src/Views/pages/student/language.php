@@ -1,19 +1,15 @@
-<?php declare(strict_types=1); ?>
-<section class="panel">
-    <p class="eyebrow">Language</p>
-    <h2>Select language</h2>
-    <p>V2 currently ships in English only, but the preference is persisted so more languages can be added later without changing the page flow.</p>
-
-    <form method="POST" class="stack-form">
-        <div class="form-field">
-            <label for="preferred_language">Choose a language</label>
-            <select id="preferred_language" name="preferred_language" class="settings-select">
-                <option value="en" <?= ($currentUser['preferred_language'] ?? 'en') === 'en' ? 'selected' : '' ?>>English</option>
-            </select>
-        </div>
-        <div class="inline-actions">
-            <button type="submit" class="button button--primary">Save language</button>
-            <a href="<?= e(app_url('setting.php')) ?>" class="button button--ghost">Back to settings</a>
-        </div>
-    </form>
-</section>
+<?php declare(strict_types=1);
+$current = $_SESSION['language'] ?? 'en';
+?>
+<h3>Select Your Language</h3>
+<form method="post" action="<?= e(app_url('langsave.php')) ?>" class="mt-3" style="max-width: 400px;">
+    <div class="form-group mb-3">
+        <label for="language">Language</label>
+        <select class="form-control" id="language" name="language">
+            <option value="en" <?= $current === 'en' ? 'selected' : '' ?>>🇺🇸 English</option>
+            <option value="ms" <?= $current === 'ms' ? 'selected' : '' ?>>🇲🇾 Malay (Bahasa Melayu)</option>
+            <option value="zh" <?= $current === 'zh' ? 'selected' : '' ?>>🇨🇳 Chinese (中文)</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>

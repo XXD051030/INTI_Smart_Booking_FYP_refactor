@@ -4,34 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= e(($pageTitle ?? 'Access Portal') . ' | INTI Booking V2') ?></title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="<?= e(asset_url('css/app.css')) ?>">
+    <title><?= e($pageTitle ?? 'Reservation System') ?></title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="<?= e(asset_url('css/style.css')) ?>">
+    <link rel="stylesheet" href="<?= e(asset_url('css/login.css')) ?>">
+    <?php foreach (($pageStyles ?? []) as $style): ?>
+        <link rel="stylesheet" href="<?= e(asset_url('css/' . $style)) ?>">
+    <?php endforeach; ?>
 </head>
-<body class="auth-body">
-    <main class="auth-shell">
-        <section class="auth-hero">
-            <div class="auth-hero__logo">
-                <img src="<?= e(asset_url('images/logo/inti_logo.png')) ?>" alt="INTI logo">
-            </div>
-            <div class="auth-hero__copy">
-                <p class="eyebrow">INTI Smart Booking</p>
-                <h1><?= e($authTitle ?? 'Secure campus reservations with less friction.') ?></h1>
-                <p><?= e($authSubtitle ?? 'A focused student booking experience for rooms, labs, and sports facilities.') ?></p>
-            </div>
-            <ul class="auth-hero__list">
-                <?php foreach (($authHighlights ?? []) as $item): ?>
-                    <li><?= e($item) ?></li>
-                <?php endforeach; ?>
-            </ul>
-        </section>
-        <section class="auth-panel">
-            <?php include APP_ROOT . '/src/Views/partials/alerts.php'; ?>
-            <?= $content ?>
-        </section>
-    </main>
-    <script src="<?= e(asset_url('js/app.js')) ?>" defer></script>
+<body class="<?= e($authBodyClass ?? 'login-body') ?>">
+    <?php include APP_ROOT . '/src/Views/partials/alerts.php'; ?>
+    <?= $content ?>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <?php foreach (($pageScripts ?? []) as $script): ?>
+        <script src="<?= e(asset_url('js/' . $script)) ?>"></script>
+    <?php endforeach; ?>
+    <?php foreach (($pageInlineScripts ?? []) as $script): ?>
+        <script><?= $script ?></script>
+    <?php endforeach; ?>
 </body>
 </html>

@@ -7,14 +7,18 @@ foreach (['message', 'auth', 'admin_auth'] as $key) {
         $messages[] = $flash;
     }
 }
+$bootstrapType = static function (string $type): string {
+    return match ($type) {
+        'error', 'danger' => 'danger',
+        'warning' => 'warning',
+        'info' => 'info',
+        default => 'success',
+    };
+};
 ?>
-<?php if ($messages !== []): ?>
-    <div class="alert-stack">
-        <?php foreach ($messages as $flash): ?>
-            <div class="flash flash--<?= e($flash['type'] ?? 'success') ?>" data-flash>
-                <span><?= e($flash['message'] ?? '') ?></span>
-                <button type="button" class="flash__close" data-dismiss-flash aria-label="Dismiss alert">&times;</button>
-            </div>
-        <?php endforeach; ?>
+<?php foreach ($messages as $flash): ?>
+    <div class="alert alert-<?= e($bootstrapType($flash['type'] ?? 'success')) ?> alert-dismissible fade show" role="alert">
+        <?= e($flash['message'] ?? '') ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-<?php endif; ?>
+<?php endforeach; ?>

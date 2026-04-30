@@ -1,29 +1,9 @@
-<?php declare(strict_types=1);
-
-$adminNav = [
-    'dashboard' => ['label' => 'Dashboard', 'href' => admin_url('dashboard.php')],
-    'bookings' => ['label' => 'Booking Status', 'href' => admin_url('bookings.php')],
-];
-?>
-<aside class="sidebar admin-sidebar">
-    <div class="sidebar__brand">
-        <img src="<?= e(asset_url('images/logo/inti_logo.png')) ?>" alt="INTI logo">
-        <div>
-            <p>INTI</p>
-            <strong>Admin Console</strong>
-        </div>
+<?php declare(strict_types=1); ?>
+<div class="admin-nav">
+    <div class="container">
+        <nav class="nav">
+            <a class="nav-link<?= ($activeNav ?? '') === 'dashboard' ? ' active' : '' ?>" href="<?= e(admin_url('dashboard.php')) ?>"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
+            <a class="nav-link<?= ($activeNav ?? '') === 'bookings' ? ' active' : '' ?>" href="<?= e(admin_url('bookings.php')) ?>"><i class="fas fa-calendar-alt me-2"></i>Bookings</a>
+        </nav>
     </div>
-
-    <nav class="sidebar__nav" aria-label="Admin navigation">
-        <?php foreach ($adminNav as $navKey => $navItem): ?>
-            <a href="<?= e($navItem['href']) ?>" class="sidebar__link <?= ($activeNav ?? '') === $navKey ? 'is-active' : '' ?>">
-                <span><?= e($navItem['label']) ?></span>
-            </a>
-        <?php endforeach; ?>
-    </nav>
-
-    <div class="sidebar__footer">
-        <p>Environment</p>
-        <strong>SQLite / V2</strong>
-    </div>
-</aside>
+</div>
