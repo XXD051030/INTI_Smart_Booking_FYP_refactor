@@ -43,13 +43,13 @@ if (isset($_GET['export']) && (string) $_GET['export'] === '1') {
     fprintf($output, chr(0xEF) . chr(0xBB) . chr(0xBF));
 
     if (!empty($rows)) {
-        fputcsv($output, array_keys($rows[0]));
+        fputcsv($output, array_keys($rows[0]), ',', '"', '\\', "\n");
         foreach ($rows as $row) {
-            fputcsv($output, $row);
+            fputcsv($output, $row, ',', '"', '\\', "\n");
         }
     } else {
-        fputcsv($output, ['Booking ID', 'Facility', 'Location', 'Username', 'Email', 'Date', 'Start Time', 'End Time', 'Purpose', 'Status', 'Created At', 'Cancelled At']);
-        fputcsv($output, ['No bookings found for ' . $date]);
+        fputcsv($output, ['Booking ID', 'Facility', 'Location', 'Username', 'Email', 'Date', 'Start Time', 'End Time', 'Purpose', 'Status', 'Created At', 'Cancelled At'], ',', '"', '\\', "\n");
+        fputcsv($output, ['No bookings found for ' . $date], ',', '"', '\\', "\n");
     }
 
     fclose($output);
