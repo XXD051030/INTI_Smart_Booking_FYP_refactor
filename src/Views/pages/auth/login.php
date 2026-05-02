@@ -1,4 +1,5 @@
 <?php declare(strict_types=1); ?>
+<?php $loginFlash = pull_flash('login'); ?>
 <div class="login-container">
     <div class="login-card">
         <div class="login-header">
@@ -6,6 +7,12 @@
             <h2>Welcome Back</h2>
             <p class="text-muted">Sign in to your account</p>
         </div>
+
+        <?php if ($loginFlash !== null): ?>
+            <div class="alert alert-<?= ($loginFlash['type'] ?? 'success') === 'success' ? 'success' : 'danger' ?> mb-3" role="alert">
+                <?= e($loginFlash['message']) ?>
+            </div>
+        <?php endif; ?>
 
         <form class="login-form" id="loginForm">
             <div class="form-group">
@@ -90,6 +97,8 @@
         .then(data => {
             if (data.success) {
                 window.location.href = '<?= e(app_url('general.php')) ?>';
+            } else if (data.redirect_to) {
+                window.location.href = data.redirect_to;
             } else {
                 errorMessage.textContent = data.message;
                 errorMessage.classList.remove('d-none');

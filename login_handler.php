@@ -16,7 +16,21 @@ if ($email === '' || $password === '') {
 }
 
 $result = app()->studentAuth()->login($email, $password);
+
+if ($result['success']) {
+    json_response(['success' => true, 'message' => 'Login successful']);
+}
+
+if (!empty($result['needs_verification'])) {
+    $_SESSION['email_reg'] = (string) ($result['email'] ?? $email);
+    json_response([
+        'success' => false,
+        'message' => $result['message'] ?? 'Please verify your email before signing in.',
+        'redirect_to' => app_url('otp-verify.php'),
+    ]);
+}
+
 json_response([
-    'success' => $result['success'],
-    'message' => $result['success'] ? 'Login successful' : ($result['message'] ?? 'Invalid email or password'),
+    'success' => false,
+    'message' => $result['message'] ?? 'Invalid email or password',
 ]);

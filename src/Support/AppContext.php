@@ -9,11 +9,13 @@ use V2\Repositories\AdminUserRepository;
 use V2\Repositories\BookingRepository;
 use V2\Repositories\FacilityRepository;
 use V2\Repositories\NotificationRepository;
+use V2\Repositories\OtpRepository;
 use V2\Repositories\UserRepository;
 use V2\Services\AdminAuthService;
 use V2\Services\BookingService;
 use V2\Services\MailService;
 use V2\Services\NotificationService;
+use V2\Services\OtpService;
 use V2\Services\StudentAuthService;
 
 final class AppContext
@@ -26,8 +28,10 @@ final class AppContext
     private FacilityRepository $facilities;
     private BookingRepository $bookings;
     private NotificationRepository $notifications;
+    private OtpRepository $otps;
     private MailService $mail;
     private NotificationService $notificationService;
+    private OtpService $otpService;
     private StudentAuthService $studentAuth;
     private AdminAuthService $adminAuth;
     private BookingService $bookingService;
@@ -42,8 +46,10 @@ final class AppContext
         $this->facilities = new FacilityRepository($this->pdo);
         $this->bookings = new BookingRepository($this->pdo);
         $this->notifications = new NotificationRepository($this->pdo);
+        $this->otps = new OtpRepository($this->pdo);
         $this->mail = new MailService($config['mail'] ?? []);
         $this->notificationService = new NotificationService($this->notifications);
+        $this->otpService = new OtpService($this->otps, $this->users, $this->mail);
         $this->studentAuth = new StudentAuthService($this->users, $config);
         $this->adminAuth = new AdminAuthService($this->admins);
         $this->bookingService = new BookingService(
@@ -116,6 +122,16 @@ final class AppContext
     public function notificationService(): NotificationService
     {
         return $this->notificationService;
+    }
+
+    public function otps(): OtpRepository
+    {
+        return $this->otps;
+    }
+
+    public function otpService(): OtpService
+    {
+        return $this->otpService;
     }
 
     public function studentAuth(): StudentAuthService

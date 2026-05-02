@@ -16,8 +16,15 @@ $confirmPassword = (string) ($_POST['password_confirmation'] ?? '');
 $result = app()->studentAuth()->register($username, $email, $password, $confirmPassword);
 
 if ($result['success']) {
-    $_SESSION['email_reg'] = $email;
-    json_response(['success' => true, 'message' => 'Registration successful. You can now log in.']);
+    $_SESSION['email_reg'] = (string) ($result['email'] ?? $email);
+    $payload = [
+        'success' => true,
+        'message' => $result['message'] ?? 'Registration successful.',
+    ];
+    if (!empty($result['needs_verification'])) {
+        $payload['redirect_to'] = app_url('otp-verify.php');
+    }
+    json_response($payload);
 }
 
 json_response(['success' => false, 'message' => $result['message']]);

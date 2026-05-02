@@ -433,8 +433,9 @@
                     success: function(response) {
                         if (response.success) {
                             showFeedback('success', response.message);
+                            var nextUrl = response.redirect_to || '<?= e(app_url('login.php')) ?>';
                             setTimeout(function() {
-                                window.location.href = '<?= e(app_url('login.php')) ?>';
+                                window.location.href = nextUrl;
                             }, 1200);
                         } else {
                             showFeedback('error', response.message);

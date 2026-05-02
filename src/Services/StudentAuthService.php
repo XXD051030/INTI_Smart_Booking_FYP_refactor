@@ -45,18 +45,42 @@ final class StudentAuthService
             return ['success' => false, 'message' => 'Password must contain at least one number.'];
         }
 
-        if ($this->users->findByEmail($email) !== null) {
-            return ['success' => false, 'message' => 'An account with that email already exists.'];
+        $existing = $this->users->findByEmail($email);
+        if ($existing !== null) {
+            // Verified accounts are not allowed to be re-registered.
+            if ((int) ($existing['is_verified'] ?? 1) === 1) {
+                return ['success' => false, 'message' => 'An account with that email already exists.'];
+            }
+            // Mirror V1: an unverified registration can be replaced (handy if the user
+            // mistyped their name/password and wants to start over before verifying).
+            $this->users->refreshUnverifiedRegistration(
+                (int) $existing['id'],
+                $displayName,
+                password_hash($password, PASSWORD_DEFAULT)
+            );
+
+            return [
+                'success' => true,
+                'message' => 'Registration updated. Please verify your email.',
+                'needs_verification' => true,
+                'email' => $email,
+            ];
         }
 
         $this->users->create(
             $displayName,
             $email,
             password_hash($password, PASSWORD_DEFAULT),
-            (string) ($this->config['defaults']['language'] ?? 'en')
+            (string) ($this->config['defaults']['language'] ?? 'en'),
+            0
         );
 
-        return ['success' => true, 'message' => 'Account created successfully. You can sign in now.'];
+        return [
+            'success' => true,
+            'message' => 'Account created. Please verify your email.',
+            'needs_verification' => true,
+            'email' => $email,
+        ];
     }
 
     public function login(string $email, string $password): array
@@ -66,6 +90,15 @@ final class StudentAuthService
 
         if ($user === null || !password_verify($password, $user['password_hash'])) {
             return ['success' => false, 'message' => 'Invalid email or password.'];
+        }
+
+        if ((int) ($user['is_verified'] ?? 0) !== 1) {
+            return [
+                'success' => false,
+                'message' => 'Please verify your email before signing in.',
+                'needs_verification' => true,
+                'email' => $email,
+            ];
         }
 
         Auth::loginStudent($user);

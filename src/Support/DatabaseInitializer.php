@@ -16,12 +16,29 @@ final class DatabaseInitializer
         }
 
         $pdo->exec($schema);
+        self::migrate($pdo);
 
         self::seedFacilities($pdo);
         self::seedAdmin($pdo, $config);
 
         if ($needsInitialization) {
             $pdo->exec('VACUUM;');
+        }
+    }
+
+    private static function migrate(PDO $pdo): void
+    {
+        $columns = $pdo->query("PRAGMA table_info(users)")->fetchAll(PDO::FETCH_ASSOC);
+        $hasVerified = false;
+        foreach ($columns as $column) {
+            if (($column['name'] ?? '') === 'is_verified') {
+                $hasVerified = true;
+                break;
+            }
+        }
+        if (!$hasVerified) {
+            // Existing rows are grandfathered as verified (E1) — only new registrations go through OTP.
+            $pdo->exec('ALTER TABLE users ADD COLUMN is_verified INTEGER NOT NULL DEFAULT 1');
         }
     }
 

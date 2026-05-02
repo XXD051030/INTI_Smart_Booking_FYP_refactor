@@ -28,19 +28,43 @@ final class UserRepository
         return $statement->fetch() ?: null;
     }
 
-    public function create(string $displayName, string $email, string $passwordHash, string $language = 'en'): int
+    public function create(string $displayName, string $email, string $passwordHash, string $language = 'en', int $isVerified = 1): int
     {
         $statement = $this->pdo->prepare(
-            'INSERT INTO users (display_name, email, password_hash, preferred_language) VALUES (:display_name, :email, :password_hash, :preferred_language)'
+            'INSERT INTO users (display_name, email, password_hash, preferred_language, is_verified)
+             VALUES (:display_name, :email, :password_hash, :preferred_language, :is_verified)'
         );
         $statement->execute([
             ':display_name' => $displayName,
             ':email' => $email,
             ':password_hash' => $passwordHash,
             ':preferred_language' => $language,
+            ':is_verified' => $isVerified,
         ]);
 
         return (int) $this->pdo->lastInsertId();
+    }
+
+    public function markVerified(int $id): void
+    {
+        $statement = $this->pdo->prepare(
+            'UPDATE users SET is_verified = 1, updated_at = CURRENT_TIMESTAMP WHERE id = :id'
+        );
+        $statement->execute([':id' => $id]);
+    }
+
+    public function refreshUnverifiedRegistration(int $id, string $displayName, string $passwordHash): void
+    {
+        $statement = $this->pdo->prepare(
+            'UPDATE users
+             SET display_name = :display_name, password_hash = :password_hash, updated_at = CURRENT_TIMESTAMP
+             WHERE id = :id AND is_verified = 0'
+        );
+        $statement->execute([
+            ':id' => $id,
+            ':display_name' => $displayName,
+            ':password_hash' => $passwordHash,
+        ]);
     }
 
     public function updateProfile(int $id, string $displayName, string $email, string $language): void
