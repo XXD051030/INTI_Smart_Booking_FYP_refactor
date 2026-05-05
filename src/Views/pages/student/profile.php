@@ -17,18 +17,18 @@
         margin-bottom: 10px;
     }
 </style>
-<h3>Settings</h3>
-<h5><i class="fas fa-user"></i> Profile</h5>
+<h3><?= e(__('settings')) ?></h3>
+<h5><i class="fas fa-user"></i> <?= e(__('profile')) ?></h5>
 <div class="profile-card">
     <div class="user-info">
-        <p><strong>Name:</strong> <?= e((string) $currentUser['display_name']) ?></p>
-        <p><strong>Student ID:</strong> <?= e(student_id_from_email((string) $currentUser['email'])) ?></p>
+        <p><strong><?= e(__('name')) ?></strong> <?= e((string) $currentUser['display_name']) ?></p>
+        <p><strong><?= e(__('sid')) ?></strong> <?= e(student_id_from_email((string) $currentUser['email'])) ?></p>
     </div>
     <div>
-         <p class="mb-0">Credit: <span class="text-success">Good <img src="<?= e(asset_url('images/assets/green_tick.png')) ?>" alt="Good" width="20"></span></p>
+         <p class="mb-0"><?= e(__('credit')) ?> <span class="text-success"><?= e(__('credit_good')) ?> <img src="<?= e(asset_url('images/assets/green_tick.png')) ?>" alt="Good" width="20"></span></p>
     </div>
     <div class="form-group">
-        <label for="email">Email</label>
+        <label for="email"><?= e(__('email_address')) ?></label>
         <input type="email" class="form-control" id="email" value="<?= e((string) $currentUser['email']) ?>" readonly>
     </div>
 </div>

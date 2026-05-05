@@ -4,7 +4,7 @@ Layered rewrite of [INTI_Smart_Booking_FYP](https://github.com/XXD051030/INTI_Sm
 
 The goal of this repository is to **preserve V1's UI and feature set pixel-for-pixel** while replacing V1's flat procedural script layout with a clean layered structure (Repositories / Services / Views).
 
-> Status: Round 1 complete — V1 UI lifted verbatim onto a layered backend, plus a Round 1.5 visual polish pass and Round 2 OTP email verification. See [Roadmap](#roadmap).
+> Status: Round 1 complete — V1 UI lifted verbatim onto a layered backend, plus a Round 1.5 visual polish pass, Round 2 OTP email verification, and Round 2 multi-language UI. See [Roadmap](#roadmap).
 
 ---
 
@@ -73,11 +73,7 @@ The SQLite database file is created automatically on first request, with V1's ta
 
 ## Deferred From V1 (Round 2)
 
-These V1 features are **not yet ported** and will be addressed after Round 1 lands:
-
-- **Multi-language UI** (V1's `includes/lang/`) — Round 1 hardcodes English
-
-OTP email verification has now landed (see Roadmap → Round 2).
+All V1 features have now been ported. OTP email verification and multi-language UI both landed in Round 2 (see Roadmap below).
 
 ## Known Technical Debt
 
@@ -121,11 +117,20 @@ Brings back V1's email-OTP gate on student registration, on top of V2's layered 
 
 To plug in real mail delivery, swap the SMTP hook inside `MailService::send()` for PHPMailer (or any transport) and toggle `mail.enabled` in `config/app.php`.
 
+### Round 2 — Multi-language UI (complete)
+
+Brings back V1's English/Bahasa Melayu/Chinese language switcher, layered onto V2's structure:
+
+- New `Translator` class in `src/Support/` loads dictionaries from `src/Lang/{en,ms,zh}.php` (lifted verbatim from V1's `includes/lang/`). Locale resolves from `$_SESSION['language']` with config-driven default; an unknown locale falls back to English.
+- `app()->translator()` and an `__('key')` helper feed the views; `<html lang>` on every layout reflects the active locale.
+- `language.php` and `langsave.php` keep V1's switcher UX (POST → save → redirect) but read the available locale list from config. V1's broken Tamil option (no `ta.php` ever existed) is dropped.
+- View conversion covers V1's translated surfaces — login, register, sidebar, topbar, general, booking, my bookings, rules, support, settings, profile. New V2-introduced labels (admin pages, OTP screens, calendar polish) are dictionary-keyed in `en.php` only and degrade to English under ms/zh until translations are added.
+
 ### Round 2 — Deferred
 
-- Multi-language UI (V1's `includes/lang/`)
 - Security hardening (CSRF, rate limiting)
 - Real SMTP transport (PHPMailer wiring)
+- ms/zh translations for V2-new keys (admin / OTP / calendar polish)
 
 ## License
 

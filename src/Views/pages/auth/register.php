@@ -1,10 +1,10 @@
 <?php declare(strict_types=1); ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?= e(current_locale()) ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Email Registration</title>
+    <title><?= e(__('register_title')) ?></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
@@ -313,73 +313,73 @@
           <div style="text-align: center; margin-bottom: 30px;">
             <img src="<?= e(asset_url('images/logo/logowhite.png')) ?>" alt="INTI Logo" style="height: 60px; width: auto;">
           </div>
-          <h1 class="welcome-text">Welcome to INTI Reservation System</h1>
+          <h1 class="welcome-text"><?= e(__('welcome_to_inti')) ?></h1>
           <p class="welcome-subtext">
-            Ready to make your reservations effortlessly? Join INTI Reservation System and book your facilities with ease.
+            <?= e(__('welcome_to_inti_sub')) ?>
           </p>
           <ul class="features-list">
-            <li><i class="fas fa-check-circle"></i> Easy facility booking and management</li>
-            <li><i class="fas fa-check-circle"></i> Real-time availability checking</li>
-            <li><i class="fas fa-check-circle"></i> Join the INTI campus community</li>
+            <li><i class="fas fa-check-circle"></i> <?= e(__('feature_easy_booking')) ?></li>
+            <li><i class="fas fa-check-circle"></i> <?= e(__('feature_realtime')) ?></li>
+            <li><i class="fas fa-check-circle"></i> <?= e(__('feature_community')) ?></li>
           </ul>
 
         </div>
         <div class="right-section">
-            <h2 class="form-title">Create your account</h2>
+            <h2 class="form-title"><?= e(__('create_account')) ?></h2>
                 <div class="input-container">
                     <input type="text" placeholder=" " name="username" id="username" class="input" required>
-                    <label for="username">Username</label>
+                    <label for="username"><?= e(__('username')) ?></label>
                 </div>
 
                 <div class="input-container">
                     <input type="email" placeholder=" " name="email" id="email" class="input" required>
-                    <label for="email">INTI Email</label>
+                    <label for="email"><?= e(__('email_inti')) ?></label>
                 </div>
 
                 <div class="content-3" id="email-requirements" style="display: none;">
                     <ul class="requirement-list-3">
                         <li>
                             <i class="fa-solid fa-circle"></i>
-                            <span id="email-error">Please use your INTI student email (@student.newinti.edu.my)</span>
+                            <span id="email-error"><?= e(__('email_must_be_inti')) ?></span>
                         </li>
                     </ul>
                 </div>
 
                 <div class="input-container">
                     <input type="password" placeholder=" " name="password" id="password" class="input" required>
-                    <label for="password">Password</label>
+                    <label for="password"><?= e(__('pw')) ?></label>
                 </div>
 
                 <div class="content" id="password-requirements" style="display: none;">
                     <ul class="requirement-list">
                         <li>
                             <i class="fa-solid fa-circle"></i>
-                            <span>At least 6 characters length</span>
+                            <span><?= e(__('pw_rule_length')) ?></span>
                         </li>
                         <li>
                             <i class="fa-solid fa-circle"></i>
-                            <span>At least 1 number (0...9)</span>
+                            <span><?= e(__('pw_rule_number')) ?></span>
                         </li>
                     </ul>
                 </div>
 
                 <div class="input-container">
                     <input type="password" placeholder=" " name="password_confirmation" id="password_confirmation" class="input" required>
-                    <label for="password_confirmation">Confirm Password</label>
+                    <label for="password_confirmation"><?= e(__('confirm_password')) ?></label>
                 </div>
 
                 <div class="content-2" id="password-requirements-2" style="display: none;">
                     <ul class="requirement-list-2">
                         <li>
                             <i class="fa-solid fa-circle"></i>
-                            <span id="error">Passwords do not match</span>
+                            <span id="error"><?= e(__('pw_no_match')) ?></span>
                         </li>
                     </ul>
                 </div>
 
                 <div class="terms-container">
                     <input type="checkbox" id="terms" name="terms" required>
-                    <label for="terms">I agree to the <a href="#" target="_blank">Terms and Conditions</a> and <a href="#" target="_blank">Privacy Policy</a></label>
+                    <label for="terms"><?= __('agree_terms_html') ?></label>
                 </div>
 
                 <div id="server-feedback" class="server-feedback">
@@ -387,10 +387,10 @@
                     <span id="server-feedback-text"></span>
                 </div>
 
-                <button type="submit" id="submit_btn" disabled>Create Account</button>
+                <button type="submit" id="submit_btn" disabled><?= e(__('create_account_btn')) ?></button>
 
                 <div class="login-link">
-                    Already have an account? <a href="<?= e(app_url('login.php')) ?>">Sign in</a>
+                    <?= e(__('already_have_account')) ?> <a href="<?= e(app_url('login.php')) ?>"><?= e(__('sign_in_short')) ?></a>
                 </div>
         </div>
     </div>
@@ -442,7 +442,7 @@
                         }
                     },
                     error: function(xhr) {
-                        var msg = 'Something went wrong. Please try again.';
+                        var msg = '<?= e(__('something_went_wrong')) ?>';
                         try {
                             var parsed = JSON.parse(xhr.responseText);
                             if (parsed && parsed.message) msg = parsed.message;

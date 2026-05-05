@@ -39,14 +39,14 @@
         color: white;
     }
 </style>
-<h1 class="mb-4">Support Page</h1>
+<h1 class="mb-4"><?= e(__('Support Page')) ?></h1>
 <div class="profile-card">
     <div class="mb-5">
-        <h3>Contact Information</h3>
-        <p>Website: <a href="https://www.newinti.edu.my" target="_blank">https://www.newinti.edu.my</a></p>
-        <p>Email: iicp.adco@newinti.edu.my</p>
-        <p>Phone: +04-631 0138</p>
-        <p>Address: 1-Z Lebuh Bukit Jambul 11900 Penang, Malaysia</p>
-        <a class="btn btn-success mt-3" href="mailto:iicp.adco@inti.edu.my?subject=Support%20Request&body=Please%20describe%20your%20issue%20here.">Click here to Email Support</a>
+        <h3><?= e(__('Contact Information')) ?></h3>
+        <p><?= e(__('Website')) ?> <a href="https://www.newinti.edu.my" target="_blank">https://www.newinti.edu.my</a></p>
+        <p><?= e(__('email')) ?> iicp.adco@newinti.edu.my</p>
+        <p><?= e(__('Phone')) ?> +04-631 0138</p>
+        <p><?= e(__('Address')) ?> 1-Z Lebuh Bukit Jambul 11900 Penang, Malaysia</p>
+        <a class="btn btn-success mt-3" href="mailto:iicp.adco@inti.edu.my?subject=Support%20Request&body=Please%20describe%20your%20issue%20here."><?= e(__('Click here to Email Support')) ?></a>
     </div>
 </div>

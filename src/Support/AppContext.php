@@ -23,6 +23,7 @@ final class AppContext
     private PDO $pdo;
     private array $config;
     private View $view;
+    private Translator $translator;
     private UserRepository $users;
     private AdminUserRepository $admins;
     private FacilityRepository $facilities;
@@ -41,6 +42,12 @@ final class AppContext
         $this->config = $config;
         $this->pdo = Database::connection($config);
         $this->view = new View();
+        $this->translator = new Translator(
+            APP_ROOT . '/src/Lang',
+            (array) ($config['locales']['available'] ?? ['en']),
+            (string) ($config['defaults']['language'] ?? 'en'),
+            isset($_SESSION['language']) ? (string) $_SESSION['language'] : null,
+        );
         $this->users = new UserRepository($this->pdo);
         $this->admins = new AdminUserRepository($this->pdo);
         $this->facilities = new FacilityRepository($this->pdo);
@@ -87,6 +94,16 @@ final class AppContext
     public function view(): View
     {
         return $this->view;
+    }
+
+    public function translator(): Translator
+    {
+        return $this->translator;
+    }
+
+    public function locale(): string
+    {
+        return $this->translator->locale();
     }
 
     public function users(): UserRepository

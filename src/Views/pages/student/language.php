@@ -1,15 +1,23 @@
 <?php declare(strict_types=1);
-$current = $_SESSION['language'] ?? 'en';
+$current = current_locale();
+$languageFlash = pull_flash('language');
+$availableLocales = (array) (config('locales.available') ?? ['en']);
+$labels = (array) (config('locales.labels') ?? []);
 ?>
-<h3>Select Your Language</h3>
+<?php if ($languageFlash !== null): ?>
+    <div class="alert alert-<?= ($languageFlash['type'] ?? 'success') === 'success' ? 'success' : 'danger' ?> mb-3" role="alert">
+        <?= e($languageFlash['message']) ?>
+    </div>
+<?php endif; ?>
+<h3><?= e(__('select_title')) ?></h3>
 <form method="post" action="<?= e(app_url('langsave.php')) ?>" class="mt-3" style="max-width: 400px;">
     <div class="form-group mb-3">
-        <label for="language">Language</label>
+        <label for="language"><?= e(__('label')) ?></label>
         <select class="form-control" id="language" name="language">
-            <option value="en" <?= $current === 'en' ? 'selected' : '' ?>>🇺🇸 English</option>
-            <option value="ms" <?= $current === 'ms' ? 'selected' : '' ?>>🇲🇾 Malay (Bahasa Melayu)</option>
-            <option value="zh" <?= $current === 'zh' ? 'selected' : '' ?>>🇨🇳 Chinese (中文)</option>
+            <?php foreach ($availableLocales as $locale): ?>
+                <option value="<?= e($locale) ?>" <?= $current === $locale ? 'selected' : '' ?>><?= e($labels[$locale] ?? $locale) ?></option>
+            <?php endforeach; ?>
         </select>
     </div>
-    <button type="submit" class="btn btn-primary">Save</button>
+    <button type="submit" class="btn btn-primary"><?= e(__('save')) ?></button>
 </form>

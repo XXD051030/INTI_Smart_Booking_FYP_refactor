@@ -26,4 +26,12 @@ return [
         ],
         'language' => 'en',
     ],
+    'locales' => [
+        'available' => ['en', 'ms', 'zh'],
+        'labels' => [
+            'en' => '🇺🇸 English',
+            'ms' => '🇲🇾 Malay (Bahasa Melayu)',
+            'zh' => '🇨🇳 Chinese (中文)',
+        ],
+    ],
 ];

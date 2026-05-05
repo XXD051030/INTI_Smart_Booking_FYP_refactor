@@ -17,7 +17,7 @@
             </div>
             <span class="ms-2 me-3"><?= e((string) ($currentUser['display_name'] ?? '')) ?></span>
             <a href="<?= e(app_url('logout.php')) ?>" class="btn btn-outline-danger btn-sm">
-                <i class="fas fa-sign-out-alt"></i> Logout
+                <i class="fas fa-sign-out-alt"></i> <?= e(__('logout')) ?>
             </a>
         </div>
     </div>

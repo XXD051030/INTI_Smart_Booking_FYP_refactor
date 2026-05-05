@@ -31,6 +31,16 @@ function e(string|null $value): string
     return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 }
 
+function __(string $key, ?string $fallback = null): string
+{
+    return app()->translator()->get($key, $fallback);
+}
+
+function current_locale(): string
+{
+    return app()->locale();
+}
+
 function app_url(string $path = ''): string
 {
     $prefix = APP_BASE_URL;

@@ -4,8 +4,8 @@
     <div class="login-card">
         <div class="login-header">
             <img src="<?= e(asset_url('images/logo/inti_logo.png')) ?>" alt="INTI Logo" class="login-logo">
-            <h2>Welcome Back</h2>
-            <p class="text-muted">Sign in to your account</p>
+            <h2><?= e(__('welcome_back')) ?></h2>
+            <p class="text-muted"><?= e(__('signinacc')) ?></p>
         </div>
 
         <?php if ($loginFlash !== null): ?>
@@ -17,17 +17,17 @@
         <form class="login-form" id="loginForm">
             <div class="form-group">
                 <label for="email" class="form-label">
-                    <i class="fas fa-envelope"></i> Email Address
+                    <i class="fas fa-envelope"></i> <?= e(__('email_address')) ?>
                 </label>
-                <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                <input type="email" class="form-control" id="email" name="email" placeholder="<?= e(__('enter_your_email')) ?>" required>
             </div>
 
             <div class="form-group">
                 <label for="password" class="form-label">
-                    <i class="fas fa-lock"></i> Password
+                    <i class="fas fa-lock"></i> <?= e(__('pw')) ?>
                 </label>
                 <div class="password-wrapper">
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="<?= e(__('enter_your_password')) ?>" required>
                     <button type="button" class="password-toggle" onclick="togglePassword()">
                         <i class="fas fa-eye" id="toggleIcon"></i>
                     </button>
@@ -40,19 +40,19 @@
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="remember" name="remember">
                     <label class="form-check-label" for="remember">
-                        Remember me
+                        <?= e(__('remember')) ?>
                     </label>
                 </div>
-                <a href="#" class="forgot-password">Forgot password?</a>
+                <a href="#" class="forgot-password"><?= e(__('forget')) ?></a>
             </div>
 
             <button type="submit" class="btn-login" id="loginButton">
                 <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" id="loginSpinner"></span>
-                <span id="loginButtonText"><i class="fas fa-sign-in-alt"></i> Sign In</span>
+                <span id="loginButtonText"><i class="fas fa-sign-in-alt"></i> <?= e(__('signin')) ?></span>
             </button>
 
             <div class="signup-link">
-                <p>Don't have an account? <a href="<?= e(app_url('register.php')) ?>">Sign up here</a></p>
+                <p><?= e(__('donthaveacc')) ?> <a href="<?= e(app_url('register.php')) ?>"><?= e(__('signup')) ?></a></p>
             </div>
         </form>
     </div>
@@ -86,7 +86,7 @@
 
         loginButton.disabled = true;
         loginSpinner.classList.remove('d-none');
-        loginButtonText.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing In...';
+        loginButtonText.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <?= e(__('signing_in')) ?>';
         errorMessage.classList.add('d-none');
 
         fetch('<?= e(app_url('login_handler.php')) ?>', {
@@ -105,16 +105,16 @@
 
                 loginButton.disabled = false;
                 loginSpinner.classList.add('d-none');
-                loginButtonText.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In';
+                loginButtonText.innerHTML = '<i class="fas fa-sign-in-alt"></i> <?= e(__('signin')) ?>';
             }
         })
         .catch(error => {
-            errorMessage.textContent = 'An error occurred. Please try again.';
+            errorMessage.textContent = '<?= e(__('an_error_occurred')) ?>';
             errorMessage.classList.remove('d-none');
 
             loginButton.disabled = false;
             loginSpinner.classList.add('d-none');
-            loginButtonText.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In';
+            loginButtonText.innerHTML = '<i class="fas fa-sign-in-alt"></i> <?= e(__('signin')) ?>';
         });
     });
 
