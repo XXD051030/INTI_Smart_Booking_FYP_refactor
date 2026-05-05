@@ -24,12 +24,12 @@ final class NotificationService
 
     public function markRead(int $notificationId, int $userId): void
     {
-        $this->notifications->markRead($notificationId, $userId);
+        $this->notifications->markRead($notificationId, $userId, $this->now());
     }
 
     public function markAllRead(int $userId): void
     {
-        $this->notifications->markAllRead($userId);
+        $this->notifications->markAllRead($userId, $this->now());
     }
 
     public function bookingConfirmed(int $userId, int $bookingId, string $facilityName, string $bookingDate, string $startTime, string $endTime): void
@@ -42,7 +42,7 @@ final class NotificationService
             format_time_range($startTime, $endTime)
         );
 
-        $this->notifications->create($userId, 'booking_confirmed', $title, $message, $bookingId);
+        $this->notifications->create($userId, 'booking_confirmed', $title, $message, $bookingId, $this->now());
     }
 
     public function bookingCancelled(int $userId, int $bookingId, string $facilityName, string $bookingDate, string $startTime, string $endTime): void
@@ -55,11 +55,16 @@ final class NotificationService
             format_time_range($startTime, $endTime)
         );
 
-        $this->notifications->create($userId, 'booking_cancelled', $title, $message, $bookingId);
+        $this->notifications->create($userId, 'booking_cancelled', $title, $message, $bookingId, $this->now());
     }
 
     public function systemNotice(int $userId, string $title, string $message): void
     {
-        $this->notifications->create($userId, 'system_notice', $title, $message, null);
+        $this->notifications->create($userId, 'system_notice', $title, $message, null, $this->now());
+    }
+
+    private function now(): string
+    {
+        return date('Y-m-d H:i:s');
     }
 }
