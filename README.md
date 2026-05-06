@@ -122,7 +122,7 @@ Brings back V1's English/Bahasa Melayu/Chinese language switcher, layered onto V
 - New `Translator` class in `src/Support/` loads dictionaries from `src/Lang/{en,ms,zh}.php` (lifted verbatim from V1's `includes/lang/`). Locale resolves from `$_SESSION['language']` with config-driven default; an unknown locale falls back to English.
 - `app()->translator()` and an `__('key')` helper feed the views; `<html lang>` on every layout reflects the active locale.
 - `language.php` and `langsave.php` keep V1's switcher UX (POST → save → redirect) but read the available locale list from config. V1's broken Tamil option (no `ta.php` ever existed) is dropped.
-- View conversion covers V1's translated surfaces — login, register, sidebar, topbar, general, booking, my bookings, rules, support, settings, profile. New V2-introduced labels (admin pages, OTP screens, calendar polish) are dictionary-keyed in `en.php` only and degrade to English under ms/zh until translations are added.
+- View conversion covers V1's translated surfaces — login, register, sidebar, topbar, general, booking, my bookings, rules, support, settings, profile — plus the OTP verification screen. The new V2-introduced labels on those surfaces (welcome-back banner, password rules, settings cards, OTP UX, etc.) now have full ms/zh translations alongside V1's lifted dictionary. The admin pages remain English (out of scope for the student-facing port).
 
 ### Round 2 — Security hardening (complete)
 
@@ -150,7 +150,8 @@ Send results are always appended to `storage/logs/mail.log` with a `QUEUED` / `S
 
 ### Round 2 — Deferred
 
-- ms/zh translations for V2-new keys (admin / OTP / calendar polish)
+- Admin pages translation (currently English-only)
+- Calendar page translation (V1 never translated it either)
 
 ## License
 

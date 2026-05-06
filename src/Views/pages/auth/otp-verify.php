@@ -226,8 +226,8 @@
                 <div class="icon-password">******</div>
             </div>
 
-            <h1 class="otp-title">Verify Your Email Address</h1>
-            <p class="otp-subtitle">Click "Send OTP" to receive a 6-digit verification code. If you don't see it, check your spam folder.</p>
+            <h1 class="otp-title"><?= e(__('otp_title')) ?></h1>
+            <p class="otp-subtitle"><?= e(__('otp_subtitle')) ?></p>
             <p class="otp-email"><i class="fa-regular fa-envelope me-1"></i><?= e($email) ?></p>
 
             <form action="<?= e(app_url('otp-verify.php')) ?>" method="post" id="otpForm">
@@ -251,7 +251,7 @@
                 <?php endif; ?>
 
                 <button type="submit" class="btn btn-verify">
-                    Verify Account
+                    <?= e(__('verify_account')) ?>
                 </button>
             </form>
 
@@ -259,13 +259,18 @@
                 <button type="button"
                         id="send-email"
                         class="btn-resend"
-                        onclick="startCountdown('Send OTP', 'Resend OTP', '<?= e(app_url('otp-verify.php')) ?>')">
-                    Send OTP
+                        onclick="startCountdown('<?= e(__('send_otp')) ?>', '<?= e(__('resend_otp')) ?>', '<?= e(app_url('otp-verify.php')) ?>')">
+                    <?= e(__('send_otp')) ?>
                 </button>
             </div>
         </div>
     </div>
 
+    <script>
+        window.OTP_LABELS = {
+            send_failed: <?= json_encode(__('otp_send_failed'), JSON_UNESCAPED_UNICODE) ?>
+        };
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
     <script src="<?= e(asset_url('js/countdown.js')) ?>"></script>

@@ -56,6 +56,12 @@ return [
     'agree_terms_html' => 'I agree to the <a href="#" target="_blank">Terms and Conditions</a> and <a href="#" target="_blank">Privacy Policy</a>',
     'create_account_btn' => 'Create Account',
     'sign_in_short' => 'Sign in',
+    'otp_title' => 'Verify Your Email Address',
+    'otp_subtitle' => 'Click "Send OTP" to receive a 6-digit verification code. If you don\'t see it, check your spam folder.',
+    'verify_account' => 'Verify Account',
+    'send_otp' => 'Send OTP',
+    'resend_otp' => 'Resend OTP',
+    'otp_send_failed' => 'Failed to send OTP. Please try again.',
 
     //sidebar
     'general' => 'General',

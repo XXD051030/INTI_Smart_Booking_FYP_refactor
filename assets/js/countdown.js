@@ -5,18 +5,16 @@
 function startCountdown(initialText, resendText, targetPage) {
     const button = document.getElementById('send-email');
     let countdown = 60; // 60 seconds countdown
-    
-    // Disable button and start countdown
+
     button.disabled = true;
     button.textContent = `${initialText} (${countdown}s)`;
-    
-    // Send OTP request
-    sendOTP(targetPage);
-    
+
+    sendOTP(targetPage, initialText);
+
     const timer = setInterval(() => {
         countdown--;
         button.textContent = `${resendText} (${countdown}s)`;
-        
+
         if (countdown <= 0) {
             clearInterval(timer);
             button.disabled = false;
@@ -25,7 +23,7 @@ function startCountdown(initialText, resendText, targetPage) {
     }, 1000);
 }
 
-function sendOTP(targetPage) {
+function sendOTP(targetPage, fallbackButtonText) {
     const csrfToken = (document.querySelector('meta[name="csrf-token"]') || {}).content || '';
     const formData = new FormData();
     formData.append('action', 'sended');
@@ -44,17 +42,15 @@ function sendOTP(targetPage) {
     })
     .then(data => {
         console.log('OTP sent successfully');
-        // You can add success notification here if needed
     })
     .catch(error => {
         console.error('Error sending OTP:', error);
-        // Re-enable button on error
         const button = document.getElementById('send-email');
         button.disabled = false;
-        button.textContent = 'Send OTP';
-        
-        // Show error message
-        showMessage('Failed to send OTP. Please try again.', 'error');
+        button.textContent = fallbackButtonText || 'Send OTP';
+
+        const labels = (window.OTP_LABELS || {});
+        showMessage(labels.send_failed || 'Failed to send OTP. Please try again.', 'error');
     });
 }
 
