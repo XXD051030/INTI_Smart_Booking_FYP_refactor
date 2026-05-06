@@ -4,7 +4,7 @@ Layered rewrite of [INTI_Smart_Booking_FYP](https://github.com/XXD051030/INTI_Sm
 
 The goal of this repository is to **preserve V1's UI and feature set pixel-for-pixel** while replacing V1's flat procedural script layout with a clean layered structure (Repositories / Services / Views).
 
-> Status: Round 1 complete — V1 UI lifted verbatim onto a layered backend. Round 1.5 visual polish, Round 2 OTP email verification, multi-language UI, and Round 2 security hardening (CSRF + rate limiting) all landed. See [Roadmap](#roadmap).
+> Status: **Round 2 complete.** V1's full feature set is ported onto a layered backend, with Round 1.5 visual polish, OTP email verification, multi-language UI (en / ms / zh), CSRF + rate limiting, and PHPMailer SMTP all landed. The student-facing surface area is at parity with V1 or better; only the admin pages and calendar are still English-only. See [Roadmap](#roadmap).
 
 ---
 
