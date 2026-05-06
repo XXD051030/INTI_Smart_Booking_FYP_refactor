@@ -87,3 +87,11 @@ CREATE TABLE IF NOT EXISTS notifications (
 );
 
 CREATE INDEX IF NOT EXISTS idx_notifications_user_unread ON notifications(user_id, is_read);
+
+CREATE TABLE IF NOT EXISTS rate_limits (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    bucket TEXT NOT NULL,
+    hit_at TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_rate_limits_bucket_time ON rate_limits(bucket, hit_at);

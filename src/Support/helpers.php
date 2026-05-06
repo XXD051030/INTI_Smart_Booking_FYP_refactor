@@ -52,6 +52,11 @@ function csrf_field(): string
     return '<input type="hidden" name="' . Csrf::fieldName() . '" value="' . e(Csrf::token()) . '">';
 }
 
+function client_ip(): string
+{
+    return (string) ($_SERVER['REMOTE_ADDR'] ?? 'unknown');
+}
+
 function verify_csrf_or_fail(): void
 {
     if (!Csrf::check(Csrf::fromRequest())) {

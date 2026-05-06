@@ -26,7 +26,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = (string) ($_POST['action'] ?? '');
 
     if ($action === 'sended') {
+        $rl = app()->rateLimiter();
+        $ipBucket = 'otp_send:ip:' . client_ip();
+        $retry = $rl->retryAfter($ipBucket, 10, 3600);
+        if ($retry > 0) {
+            $_SESSION['msg'] = sprintf('Too many OTP requests from your network. Try again in %d seconds.', $retry);
+            $_SESSION['msg_type'] = 'error';
+            redirect('otp-verify.php');
+        }
         $result = app()->otpService()->sendForUser($user);
+        if ($result['success']) {
+            $rl->hit($ipBucket);
+        }
         $_SESSION['msg'] = $result['message'];
         $_SESSION['msg_type'] = $result['success'] ? 'success' : 'error';
         redirect('otp-verify.php');

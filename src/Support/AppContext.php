@@ -24,6 +24,7 @@ final class AppContext
     private array $config;
     private View $view;
     private Translator $translator;
+    private RateLimiter $rateLimiter;
     private UserRepository $users;
     private AdminUserRepository $admins;
     private FacilityRepository $facilities;
@@ -48,6 +49,7 @@ final class AppContext
             (string) ($config['defaults']['language'] ?? 'en'),
             isset($_SESSION['language']) ? (string) $_SESSION['language'] : null,
         );
+        $this->rateLimiter = new RateLimiter($this->pdo);
         $this->users = new UserRepository($this->pdo);
         $this->admins = new AdminUserRepository($this->pdo);
         $this->facilities = new FacilityRepository($this->pdo);
@@ -104,6 +106,11 @@ final class AppContext
     public function locale(): string
     {
         return $this->translator->locale();
+    }
+
+    public function rateLimiter(): RateLimiter
+    {
+        return $this->rateLimiter;
     }
 
     public function users(): UserRepository

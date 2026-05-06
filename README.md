@@ -4,7 +4,7 @@ Layered rewrite of [INTI_Smart_Booking_FYP](https://github.com/XXD051030/INTI_Sm
 
 The goal of this repository is to **preserve V1's UI and feature set pixel-for-pixel** while replacing V1's flat procedural script layout with a clean layered structure (Repositories / Services / Views).
 
-> Status: Round 1 complete — V1 UI lifted verbatim onto a layered backend, plus a Round 1.5 visual polish pass, Round 2 OTP email verification, and Round 2 multi-language UI. See [Roadmap](#roadmap).
+> Status: Round 1 complete — V1 UI lifted verbatim onto a layered backend. Round 1.5 visual polish, Round 2 OTP email verification, multi-language UI, and Round 2 security hardening (CSRF + rate limiting) all landed. See [Roadmap](#roadmap).
 
 ---
 
@@ -77,12 +77,10 @@ All V1 features have now been ported. OTP email verification and multi-language 
 
 ## Known Technical Debt
 
-This refactor mirrors V1 as faithfully as possible, including some weaknesses that were present in V1. The following items will be revisited after the structural refactor stabilizes:
+This refactor mirrors V1 as faithfully as possible. Remaining gaps:
 
-- No CSRF token protection on state-changing forms (login, register, booking, cancel)
-- No rate limiting on authentication endpoints
-- Default admin credentials are documented in this README
-- Mail delivery currently a no-op stub
+- Default admin credentials are documented in this README (intentional for dev)
+- Mail delivery currently writes to `storage/logs/mail.log`; real SMTP wiring still TODO
 
 ## Roadmap
 
@@ -126,9 +124,13 @@ Brings back V1's English/Bahasa Melayu/Chinese language switcher, layered onto V
 - `language.php` and `langsave.php` keep V1's switcher UX (POST → save → redirect) but read the available locale list from config. V1's broken Tamil option (no `ta.php` ever existed) is dropped.
 - View conversion covers V1's translated surfaces — login, register, sidebar, topbar, general, booking, my bookings, rules, support, settings, profile. New V2-introduced labels (admin pages, OTP screens, calendar polish) are dictionary-keyed in `en.php` only and degrade to English under ms/zh until translations are added.
 
+### Round 2 — Security hardening (complete)
+
+- **CSRF**: per-session synchronizer token rotated on login/logout. Token reaches the browser through a `<meta name="csrf-token">` tag on every layout (and the two layout-less pages — register and otp-verify). HTML forms include it via `csrf_field()`; AJAX call sites pull it from the meta tag and send it as both a `_token` body field and an `X-CSRF-Token` header. `verify_csrf_or_fail()` guards every state-changing endpoint (login, register, booking create/cancel, mark-notification-read, langsave, otp-verify, admin login + actions). Bad/missing tokens return HTTP 419.
+- **Rate limiting**: SQLite-backed `RateLimiter` service (no extra dependency). Login throttled at 10 attempts per IP and 5 per email per 15 minutes; register at 5 per IP per 15 minutes; OTP send at 10 per IP per hour (on top of the existing 60-second per-user throttle). Successful login clears its IP+email buckets; rate-limited responses are HTTP 429 with a `retry_after` field for AJAX consumers.
+
 ### Round 2 — Deferred
 
-- Security hardening (CSRF, rate limiting)
 - Real SMTP transport (PHPMailer wiring)
 - ms/zh translations for V2-new keys (admin / OTP / calendar polish)
 
