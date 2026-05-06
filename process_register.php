@@ -8,6 +8,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     json_response(['success' => false, 'message' => 'Invalid request method']);
 }
 
+verify_csrf_or_fail();
+
 $username = (string) ($_POST['username'] ?? '');
 $email = (string) ($_POST['email'] ?? '');
 $password = (string) ($_POST['password'] ?? '');

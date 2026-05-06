@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="<?= e(csrf_token()) ?>">
     <title><?= e(__('register_title')) ?></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -418,7 +419,9 @@
                 e.preventDefault();
                 $feedback.hide();
 
+                var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
                 var formData = {
+                    _token: csrfToken,
                     username: $('#username').val(),
                     email: $('#email').val(),
                     password: $('#password').val(),
@@ -430,6 +433,7 @@
                     url: '<?= e(app_url('process_register.php')) ?>',
                     data: formData,
                     dataType: 'json',
+                    headers: { 'X-CSRF-Token': csrfToken },
                     success: function(response) {
                         if (response.success) {
                             showFeedback('success', response.message);

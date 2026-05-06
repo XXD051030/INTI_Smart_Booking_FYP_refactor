@@ -393,12 +393,15 @@ function submitBooking() {
     // Show loading modal
     showLoadingModal();
 
+    const csrfToken = (document.querySelector('meta[name="csrf-token"]') || {}).content || '';
+    formData._token = csrfToken;
     fetch('process_booking.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRF-Token': csrfToken
         },
-        body: Object.keys(formData).map(key => 
+        body: Object.keys(formData).map(key =>
             encodeURIComponent(key) + '=' + encodeURIComponent(formData[key])
         ).join('&')
     })

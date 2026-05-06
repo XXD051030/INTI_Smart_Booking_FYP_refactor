@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use V2\Support\AppContext;
 use V2\Support\Auth;
+use V2\Support\Csrf;
 
 function config(string $key, mixed $default = null): mixed
 {
@@ -39,6 +40,30 @@ function __(string $key, ?string $fallback = null): string
 function current_locale(): string
 {
     return app()->locale();
+}
+
+function csrf_token(): string
+{
+    return Csrf::token();
+}
+
+function csrf_field(): string
+{
+    return '<input type="hidden" name="' . Csrf::fieldName() . '" value="' . e(Csrf::token()) . '">';
+}
+
+function verify_csrf_or_fail(): void
+{
+    if (!Csrf::check(Csrf::fromRequest())) {
+        if (str_contains((string) ($_SERVER['HTTP_ACCEPT'] ?? ''), 'application/json')
+            || strtolower((string) ($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '')) === 'xmlhttprequest'
+            || isset($_SERVER['HTTP_X_CSRF_TOKEN'])) {
+            json_response(['success' => false, 'message' => 'Your session has expired. Please refresh the page and try again.'], 419);
+        }
+        http_response_code(419);
+        echo 'Session token mismatch. Refresh the page and try again.';
+        exit;
+    }
 }
 
 function app_url(string $path = ''): string

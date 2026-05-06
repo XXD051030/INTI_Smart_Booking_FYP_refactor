@@ -383,10 +383,11 @@
     function cancelBooking() {
         if (!currentBookingId) return;
         if (confirm('Are you sure you want to cancel this booking? This action cannot be undone.')) {
+            const csrfToken = (document.querySelector('meta[name="csrf-token"]') || {}).content || '';
             fetch('<?= e(admin_url('actions.php')) ?>', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: `action=cancel_booking&booking_id=${currentBookingId}`
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-CSRF-Token': csrfToken },
+                body: `action=cancel_booking&booking_id=${encodeURIComponent(currentBookingId)}&_token=${encodeURIComponent(csrfToken)}`
             })
             .then(response => response.json())
             .then(data => {

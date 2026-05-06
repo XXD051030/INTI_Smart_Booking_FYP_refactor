@@ -17,6 +17,7 @@ final class Auth
             'email' => $user['email'],
             'preferred_language' => $user['preferred_language'] ?? 'en',
         ];
+        Csrf::rotate();
     }
 
     public static function loginAdmin(array $admin): void
@@ -27,6 +28,7 @@ final class Auth
             'display_name' => $admin['display_name'],
             'email' => $admin['email'],
         ];
+        Csrf::rotate();
     }
 
     public static function student(): ?array
@@ -52,10 +54,12 @@ final class Auth
     public static function logoutStudent(): void
     {
         unset($_SESSION[self::STUDENT_KEY]);
+        Csrf::rotate();
     }
 
     public static function logoutAdmin(): void
     {
         unset($_SESSION[self::ADMIN_KEY]);
+        Csrf::rotate();
     }
 }

@@ -15,6 +15,7 @@
         <?php endif; ?>
 
         <form class="login-form" id="loginForm">
+            <?= csrf_field() ?>
             <div class="form-group">
                 <label for="email" class="form-label">
                     <i class="fas fa-envelope"></i> <?= e(__('email_address')) ?>

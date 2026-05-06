@@ -211,12 +211,14 @@ class NotificationManager {
     }
     
     markAsRead(notificationId) {
+        const csrfToken = (document.querySelector('meta[name="csrf-token"]') || {}).content || '';
         fetch('mark_notification_read.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRF-Token': csrfToken
             },
-            body: `notification_id=${notificationId}`
+            body: `notification_id=${encodeURIComponent(notificationId)}&_token=${encodeURIComponent(csrfToken)}`
         })
         .then(response => response.json())
         .then(data => {
@@ -239,12 +241,14 @@ class NotificationManager {
     }
     
     markAllAsRead() {
+        const csrfToken = (document.querySelector('meta[name="csrf-token"]') || {}).content || '';
         fetch('mark_notification_read.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRF-Token': csrfToken
             },
-            body: 'mark_all=true'
+            body: `mark_all=true&_token=${encodeURIComponent(csrfToken)}`
         })
         .then(response => response.json())
         .then(data => {

@@ -26,13 +26,14 @@ function startCountdown(initialText, resendText, targetPage) {
 }
 
 function sendOTP(targetPage) {
-    // Create form data
+    const csrfToken = (document.querySelector('meta[name="csrf-token"]') || {}).content || '';
     const formData = new FormData();
     formData.append('action', 'sended');
-    
-    // Send AJAX request
+    formData.append('_token', csrfToken);
+
     fetch(targetPage, {
         method: 'POST',
+        headers: { 'X-CSRF-Token': csrfToken },
         body: formData
     })
     .then(response => {

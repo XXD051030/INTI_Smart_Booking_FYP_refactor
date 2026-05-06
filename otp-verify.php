@@ -22,6 +22,7 @@ if ($user === null) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    verify_csrf_or_fail();
     $action = (string) ($_POST['action'] ?? '');
 
     if ($action === 'sended') {

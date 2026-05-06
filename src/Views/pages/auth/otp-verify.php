@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="<?= e(csrf_token()) ?>">
     <title><?= e($pageTitle ?? 'OTP Verification') ?></title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -230,6 +231,7 @@
             <p class="otp-email"><i class="fa-regular fa-envelope me-1"></i><?= e($email) ?></p>
 
             <form action="<?= e(app_url('otp-verify.php')) ?>" method="post" id="otpForm">
+                <?= csrf_field() ?>
                 <input type="hidden" name="action" value="verify_otp">
                 <input type="hidden" name="otp" id="otpInput">
 

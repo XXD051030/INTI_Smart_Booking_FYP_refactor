@@ -216,6 +216,10 @@
 </div>
 
 <script>
+    const csrfToken = (document.querySelector('meta[name="csrf-token"]') || {}).content || '';
+    function csrfHeaders() { return { 'Content-Type': 'application/x-www-form-urlencoded', 'X-CSRF-Token': csrfToken }; }
+    function csrfBody(extra) { return extra + '&_token=' + encodeURIComponent(csrfToken); }
+
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -230,8 +234,8 @@
         if (confirm(`Are you sure you want to delete user "${username}"? This action cannot be undone.`)) {
             fetch('<?= e(admin_url('actions.php')) ?>', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: `action=delete_user&user_id=${userId}`
+                headers: csrfHeaders(),
+                body: csrfBody(`action=delete_user&user_id=${encodeURIComponent(userId)}`)
             })
             .then(response => response.json())
             .then(data => {
@@ -261,8 +265,8 @@
 
         fetch('<?= e(admin_url('actions.php')) ?>', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `action=edit_user&user_id=${userId}&username=${encodeURIComponent(username)}&email=${encodeURIComponent(email)}`
+            headers: csrfHeaders(),
+            body: csrfBody(`action=edit_user&user_id=${encodeURIComponent(userId)}&username=${encodeURIComponent(username)}&email=${encodeURIComponent(email)}`)
         })
         .then(response => response.json())
         .then(data => {
@@ -302,8 +306,8 @@
         if (confirm('Are you sure you want to reset this user\'s password?')) {
             fetch('<?= e(admin_url('actions.php')) ?>', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: `action=reset_password&user_id=${userId}&new_password=${encodeURIComponent(newPassword)}`
+                headers: csrfHeaders(),
+                body: csrfBody(`action=reset_password&user_id=${encodeURIComponent(userId)}&new_password=${encodeURIComponent(newPassword)}`)
             })
             .then(response => response.json())
             .then(data => {

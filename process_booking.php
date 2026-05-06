@@ -8,6 +8,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     json_response(['success' => false, 'message' => 'Invalid request method']);
 }
 
+verify_csrf_or_fail();
+
 $student = require_student_json();
 $userId = (int) $student['id'];
 

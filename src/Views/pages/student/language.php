@@ -11,6 +11,7 @@ $labels = (array) (config('locales.labels') ?? []);
 <?php endif; ?>
 <h3><?= e(__('select_title')) ?></h3>
 <form method="post" action="<?= e(app_url('langsave.php')) ?>" class="mt-3" style="max-width: 400px;">
+    <?= csrf_field() ?>
     <div class="form-group mb-3">
         <label for="language"><?= e(__('label')) ?></label>
         <select class="form-control" id="language" name="language">

@@ -82,12 +82,14 @@ function confirmCancelBooking() {
     confirmButton.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Cancelling...';
 
     // Send cancel request
+    const csrfToken = (document.querySelector('meta[name="csrf-token"]') || {}).content || '';
     fetch('cancel_booking.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRF-Token': csrfToken
         },
-        body: `booking_id=${currentBookingId}`
+        body: `booking_id=${encodeURIComponent(currentBookingId)}&_token=${encodeURIComponent(csrfToken)}`
     })
     .then(response => response.json())
     .then(data => {

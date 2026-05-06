@@ -10,6 +10,7 @@ if (current_admin() !== null) {
 
 $error = null;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    verify_csrf_or_fail();
     $result = app()->adminAuth()->login((string) ($_POST['username'] ?? ''), (string) ($_POST['password'] ?? ''));
     if ($result['success']) {
         redirect('admin/dashboard.php');
