@@ -113,7 +113,7 @@ Brings back V1's email-OTP gate on student registration, on top of V2's layered 
 - Register & login now route unverified accounts to a dedicated `otp-verify.php` page that mirrors V1's UX (Send OTP → 6 inputs → Verify) but in the V2 red palette.
 - Re-registering an unverified email replaces the pending row (V1 parity); re-registering a verified one is rejected.
 
-To plug in real mail delivery, swap the SMTP hook inside `MailService::send()` for PHPMailer (or any transport) and toggle `mail.enabled` in `config/app.php`.
+To plug in real mail delivery, set the env vars listed in the [SMTP / PHPMailer section](#round-2--smtp-transport-complete) below and `MAIL_ENABLED=true`.
 
 ### Round 2 — Multi-language UI (complete)
 
@@ -129,9 +129,27 @@ Brings back V1's English/Bahasa Melayu/Chinese language switcher, layered onto V
 - **CSRF**: per-session synchronizer token rotated on login/logout. Token reaches the browser through a `<meta name="csrf-token">` tag on every layout (and the two layout-less pages — register and otp-verify). HTML forms include it via `csrf_field()`; AJAX call sites pull it from the meta tag and send it as both a `_token` body field and an `X-CSRF-Token` header. `verify_csrf_or_fail()` guards every state-changing endpoint (login, register, booking create/cancel, mark-notification-read, langsave, otp-verify, admin login + actions). Bad/missing tokens return HTTP 419.
 - **Rate limiting**: SQLite-backed `RateLimiter` service (no extra dependency). Login throttled at 10 attempts per IP and 5 per email per 15 minutes; register at 5 per IP per 15 minutes; OTP send at 10 per IP per hour (on top of the existing 60-second per-user throttle). Successful login clears its IP+email buckets; rate-limited responses are HTTP 429 with a `retry_after` field for AJAX consumers.
 
+### Round 2 — SMTP transport (complete)
+
+PHPMailer 6.9.3 is vendored under `lib/PHPMailer/` (matches V1's no-composer style; the autoloader in `bootstrap.php` knows the `PHPMailer\\PHPMailer\\` prefix). `MailService::send()` builds a configured `PHPMailer` instance when `mail.enabled` is true, and otherwise no-ops with an audit-log entry — so dev still works with no SMTP at all.
+
+Configure via env vars (read with `getenv()`, so `php.ini`'s `variables_order` doesn't matter):
+
+| Env var | Default | Notes |
+|---|---|---|
+| `MAIL_ENABLED` | `false` | Set to `true` to actually deliver mail |
+| `SMTP_HOST` | — | e.g. `smtp.gmail.com` |
+| `SMTP_PORT` | `587` | `587` for STARTTLS, `465` for implicit TLS |
+| `SMTP_USERNAME` | — | Auth disabled if empty |
+| `SMTP_PASSWORD` | — | App password recommended |
+| `SMTP_ENCRYPTION` | `tls` | `tls` (STARTTLS), `ssl` (implicit), or empty (none) |
+| `MAIL_FROM_ADDRESS` | `no-reply@inti.local` | |
+| `MAIL_FROM_NAME` | `INTI Smart Booking` | |
+
+Send results are always appended to `storage/logs/mail.log` with a `QUEUED` / `SENT` / `FAILED` tag — useful as an audit trail and as the dev fallback when SMTP is off. SMTP failures are caught: the user-facing flow stays alive and the error message is logged.
+
 ### Round 2 — Deferred
 
-- Real SMTP transport (PHPMailer wiring)
 - ms/zh translations for V2-new keys (admin / OTP / calendar polish)
 
 ## License

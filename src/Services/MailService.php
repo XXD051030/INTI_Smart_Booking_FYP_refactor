@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace V2\Services;
 
+use PHPMailer\PHPMailer\Exception as PHPMailerException;
+use PHPMailer\PHPMailer\PHPMailer;
+
 final class MailService
 {
     public function __construct(private readonly array $config)
@@ -17,14 +20,60 @@ final class MailService
 
     public function send(string $to, string $subject, string $body): bool
     {
-        $this->log($to, $subject, $body);
+        $this->log($to, $subject, $body, 'queued');
 
         if (!$this->isEnabled()) {
             return true;
         }
 
-        // SMTP transport hook — wire PHPMailer here when credentials are available.
-        return true;
+        try {
+            $mailer = new PHPMailer(true);
+            $smtp = (array) ($this->config['smtp'] ?? []);
+            $from = (array) ($this->config['from'] ?? []);
+
+            $mailer->isSMTP();
+            $mailer->Host = (string) ($smtp['host'] ?? '');
+            $mailer->Port = (int) ($smtp['port'] ?? 587);
+            $mailer->Timeout = (int) ($smtp['timeout'] ?? 10);
+            $mailer->CharSet = 'UTF-8';
+
+            $username = (string) ($smtp['username'] ?? '');
+            $password = (string) ($smtp['password'] ?? '');
+            if ($username !== '') {
+                $mailer->SMTPAuth = true;
+                $mailer->Username = $username;
+                $mailer->Password = $password;
+            }
+
+            $encryption = strtolower((string) ($smtp['encryption'] ?? 'tls'));
+            if ($encryption === 'ssl') {
+                $mailer->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+            } elseif ($encryption === 'tls') {
+                $mailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            } else {
+                $mailer->SMTPSecure = '';
+                $mailer->SMTPAutoTLS = false;
+            }
+
+            $mailer->setFrom(
+                (string) ($from['address'] ?? 'no-reply@inti.local'),
+                (string) ($from['name'] ?? 'INTI Smart Booking'),
+            );
+            $mailer->addAddress($to);
+            $mailer->isHTML(true);
+            $mailer->Subject = $subject;
+            $mailer->Body = $body;
+            $mailer->AltBody = strip_tags($body);
+
+            $mailer->send();
+            $this->log($to, $subject, '', 'sent');
+
+            return true;
+        } catch (PHPMailerException $e) {
+            $this->log($to, $subject, 'SMTP error: ' . $e->getMessage(), 'failed');
+
+            return false;
+        }
     }
 
     public function sendOtp(string $to, string $code, string $displayName = ''): bool
@@ -53,7 +102,7 @@ HTML;
         return $this->send($to, $subject, $body);
     }
 
-    private function log(string $to, string $subject, string $body): void
+    private function log(string $to, string $subject, string $body, string $status = 'queued'): void
     {
         $logFile = (string) ($this->config['log_file'] ?? APP_ROOT . '/storage/logs/mail.log');
         $directory = dirname($logFile);
@@ -62,8 +111,9 @@ HTML;
         }
 
         $payload = sprintf(
-            "[%s] TO: %s | SUBJECT: %s\n%s\n\n",
+            "[%s] %s | TO: %s | SUBJECT: %s\n%s\n\n",
             date('c'),
+            strtoupper($status),
             $to,
             $subject,
             $body
