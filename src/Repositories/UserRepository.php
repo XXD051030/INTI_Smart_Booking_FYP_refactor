@@ -30,9 +30,13 @@ final class UserRepository
 
     public function create(string $displayName, string $email, string $passwordHash, string $language = 'en', int $isVerified = 1): int
     {
+        // SQLite's CURRENT_TIMESTAMP is UTC; the rest of the app runs on KL,
+        // so columns surfaced through PHP date() or JS new Date() would be 8h off.
+        // Pass a PHP-local timestamp for both created_at and updated_at.
+        $now = db_now();
         $statement = $this->pdo->prepare(
-            'INSERT INTO users (display_name, email, password_hash, preferred_language, is_verified)
-             VALUES (:display_name, :email, :password_hash, :preferred_language, :is_verified)'
+            'INSERT INTO users (display_name, email, password_hash, preferred_language, is_verified, created_at, updated_at)
+             VALUES (:display_name, :email, :password_hash, :preferred_language, :is_verified, :created_at, :updated_at)'
         );
         $statement->execute([
             ':display_name' => $displayName,
@@ -40,6 +44,8 @@ final class UserRepository
             ':password_hash' => $passwordHash,
             ':preferred_language' => $language,
             ':is_verified' => $isVerified,
+            ':created_at' => $now,
+            ':updated_at' => $now,
         ]);
 
         return (int) $this->pdo->lastInsertId();
@@ -48,22 +54,23 @@ final class UserRepository
     public function markVerified(int $id): void
     {
         $statement = $this->pdo->prepare(
-            'UPDATE users SET is_verified = 1, updated_at = CURRENT_TIMESTAMP WHERE id = :id'
+            'UPDATE users SET is_verified = 1, updated_at = :updated_at WHERE id = :id'
         );
-        $statement->execute([':id' => $id]);
+        $statement->execute([':id' => $id, ':updated_at' => db_now()]);
     }
 
     public function refreshUnverifiedRegistration(int $id, string $displayName, string $passwordHash): void
     {
         $statement = $this->pdo->prepare(
             'UPDATE users
-             SET display_name = :display_name, password_hash = :password_hash, updated_at = CURRENT_TIMESTAMP
+             SET display_name = :display_name, password_hash = :password_hash, updated_at = :updated_at
              WHERE id = :id AND is_verified = 0'
         );
         $statement->execute([
             ':id' => $id,
             ':display_name' => $displayName,
             ':password_hash' => $passwordHash,
+            ':updated_at' => db_now(),
         ]);
     }
 
@@ -71,7 +78,7 @@ final class UserRepository
     {
         $statement = $this->pdo->prepare(
             'UPDATE users
-             SET display_name = :display_name, email = :email, preferred_language = :preferred_language, updated_at = CURRENT_TIMESTAMP
+             SET display_name = :display_name, email = :email, preferred_language = :preferred_language, updated_at = :updated_at
              WHERE id = :id'
         );
         $statement->execute([
@@ -79,28 +86,31 @@ final class UserRepository
             ':display_name' => $displayName,
             ':email' => $email,
             ':preferred_language' => $language,
+            ':updated_at' => db_now(),
         ]);
     }
 
     public function updateLanguage(int $id, string $language): void
     {
         $statement = $this->pdo->prepare(
-            'UPDATE users SET preferred_language = :preferred_language, updated_at = CURRENT_TIMESTAMP WHERE id = :id'
+            'UPDATE users SET preferred_language = :preferred_language, updated_at = :updated_at WHERE id = :id'
         );
         $statement->execute([
             ':id' => $id,
             ':preferred_language' => $language,
+            ':updated_at' => db_now(),
         ]);
     }
 
     public function resetPassword(int $id, string $passwordHash): void
     {
         $statement = $this->pdo->prepare(
-            'UPDATE users SET password_hash = :password_hash, updated_at = CURRENT_TIMESTAMP WHERE id = :id'
+            'UPDATE users SET password_hash = :password_hash, updated_at = :updated_at WHERE id = :id'
         );
         $statement->execute([
             ':id' => $id,
             ':password_hash' => $passwordHash,
+            ':updated_at' => db_now(),
         ]);
     }
 

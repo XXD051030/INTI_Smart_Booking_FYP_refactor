@@ -43,9 +43,12 @@ final class BookingRepository
         $requestToken = bin2hex(random_bytes(16));
         $primaryBookingId = null;
 
+        // SQLite's CURRENT_TIMESTAMP is UTC; pass a PHP-local timestamp so
+        // created_at lines up with date()/JS new Date() everywhere.
+        $now = db_now();
         $statement = $this->pdo->prepare(
-            "INSERT INTO bookings (request_token, user_id, facility_id, booking_date, start_time, end_time, purpose, status)
-             VALUES (:request_token, :user_id, :facility_id, :booking_date, :start_time, :end_time, :purpose, 'confirmed')"
+            "INSERT INTO bookings (request_token, user_id, facility_id, booking_date, start_time, end_time, purpose, status, created_at)
+             VALUES (:request_token, :user_id, :facility_id, :booking_date, :start_time, :end_time, :purpose, 'confirmed', :created_at)"
         );
 
         foreach ($slots as $slot) {
@@ -57,6 +60,7 @@ final class BookingRepository
                 ':start_time' => $slot['start_time'],
                 ':end_time' => $slot['end_time'],
                 ':purpose' => $purpose,
+                ':created_at' => $now,
             ]);
 
             if ($primaryBookingId === null) {
@@ -144,9 +148,12 @@ final class BookingRepository
     public function cancelRequest(string $requestToken): void
     {
         $statement = $this->pdo->prepare(
-            "UPDATE bookings SET status = 'cancelled', cancelled_at = CURRENT_TIMESTAMP WHERE request_token = :request_token AND status = 'confirmed'"
+            "UPDATE bookings SET status = 'cancelled', cancelled_at = :cancelled_at WHERE request_token = :request_token AND status = 'confirmed'"
         );
-        $statement->execute([':request_token' => $requestToken]);
+        $statement->execute([
+            ':request_token' => $requestToken,
+            ':cancelled_at' => db_now(),
+        ]);
     }
 
     public function countConfirmed(): int

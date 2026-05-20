@@ -57,6 +57,17 @@ function client_ip(): string
     return (string) ($_SERVER['REMOTE_ADDR'] ?? 'unknown');
 }
 
+/**
+ * Returns the current timestamp in the app's local timezone (KL), formatted
+ * for SQLite TEXT columns. Use this anywhere you would have written
+ * CURRENT_TIMESTAMP — SQLite's CURRENT_TIMESTAMP records UTC, which would
+ * be off by 8h from PHP's date()/strtotime() and from JS new Date().
+ */
+function db_now(): string
+{
+    return date('Y-m-d H:i:s');
+}
+
 function verify_csrf_or_fail(): void
 {
     if (!Csrf::check(Csrf::fromRequest())) {
