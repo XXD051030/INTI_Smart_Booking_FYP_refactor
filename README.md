@@ -4,7 +4,7 @@ Layered rewrite of [INTI_Smart_Booking_FYP](https://github.com/XXD051030/INTI_Sm
 
 The goal of this repository is to **preserve V1's UI and feature set pixel-for-pixel** while replacing V1's flat procedural script layout with a clean layered structure (Repositories / Services / Views).
 
-> Status: **Round 2 complete.** V1's full feature set is ported onto a layered backend, with Round 1.5 visual polish, OTP email verification, multi-language UI (en / ms / zh), CSRF + rate limiting, and PHPMailer SMTP all landed. The student-facing surface area is at parity with V1 or better; only the admin pages and calendar are still English-only. See [Roadmap](#roadmap).
+> Status: **Round 3 complete.** V1's full feature set is ported onto a layered backend, with Round 1.5 visual polish, OTP email verification, multi-language UI (en / ms / zh) across every page (student + admin + calendar), CSRF + rate limiting, and PHPMailer SMTP all landed. See [Roadmap](#roadmap).
 
 ---
 
@@ -80,7 +80,7 @@ All V1 features have now been ported. OTP email verification and multi-language 
 This refactor mirrors V1 as faithfully as possible. Remaining gaps:
 
 - Default admin credentials are documented in this README (intentional for dev)
-- Mail delivery currently writes to `storage/logs/mail.log`; real SMTP wiring still TODO
+- Mail delivery is fully wired (see [SMTP](#round-2--smtp-transport-complete)); when `MAIL_ENABLED=false` it logs to `storage/logs/mail.log` as a dev fallback
 
 ## Roadmap
 
@@ -148,10 +148,17 @@ Configure via env vars (read with `getenv()`, so `php.ini`'s `variables_order` d
 
 Send results are always appended to `storage/logs/mail.log` with a `QUEUED` / `SENT` / `FAILED` tag — useful as an audit trail and as the dev fallback when SMTP is off. SMTP failures are caught: the user-facing flow stays alive and the error message is logged.
 
-### Round 2 — Deferred
+### Round 3 — Admin + calendar i18n (complete)
 
-- Admin pages translation (currently English-only)
-- Calendar page translation (V1 never translated it either)
+Closes the last i18n gap from Round 2:
+
+- **Calendar** (`student/calendar.php`): page header, action buttons, the four stat cards (Total / This Month / Upcoming / This Week), the loading state, and the JS-rendered event-detail alert (Date / End Time / Booking ID) all read from the translator. The FullCalendar instance loads `@fullcalendar/core@6.1.8/locales/<locale>.global.min.js` for `ms` / `zh-cn`, so month/day names and toolbar buttons follow the session locale.
+- **Admin** (`admin/login.php`, `admin/dashboard.php`, `admin/bookings.php`, the shared topbar/sidebar): every visible string — page titles, stat-card labels, table headers, modal copy, JS `confirm`/`alert` text, the available-slot label and the booking-detail modal — is keyed. The admin topbar now exposes a language dropdown that posts to `langsave.php` with a `next=` redirect, so admins can switch language without leaving the page they're on.
+- `langsave.php` accepts a sanitized `next` param (regex-restricted to local `*.php` paths) and falls back to `language.php` when none is given, preserving the V1 settings-page UX.
+
+### Round 3 — Deferred
+
+None for the i18n track. V1's translated surfaces, plus everything V2 added, now all live in `en` / `ms` / `zh`.
 
 ## License
 
