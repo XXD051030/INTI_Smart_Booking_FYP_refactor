@@ -9,5 +9,5 @@ if (current_student() !== null) {
 }
 
 app()->view()->render('auth/register', [
-    'pageTitle' => 'Email Registration',
+    'pageTitle' => __('page_title_register'),
 ], 'raw');

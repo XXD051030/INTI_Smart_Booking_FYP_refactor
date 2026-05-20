@@ -27,8 +27,8 @@ $stats = [
 ];
 
 app()->view()->render('student/general', [
-    'pageTitle' => 'General',
-    'headerTitle' => 'Reservation Dashboard',
+    'pageTitle' => __('page_title_general'),
+    'headerTitle' => __('title'),
     'activeNav' => 'general',
     'currentUser' => $user,
     'notificationCount' => $notificationCount,

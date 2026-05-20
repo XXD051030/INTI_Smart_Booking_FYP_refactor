@@ -26,19 +26,19 @@ $formatTime = static function (string $datetime): string {
     $time = strtotime($datetime);
     $diff = time() - $time;
     if ($diff < 60) {
-        return 'Just now';
+        return __('time_just_now');
     }
     if ($diff < 3600) {
         $minutes = (int) floor($diff / 60);
-        return $minutes . ' minute' . ($minutes > 1 ? 's' : '') . ' ago';
+        return sprintf(__($minutes === 1 ? 'time_minute_ago' : 'time_minutes_ago'), $minutes);
     }
     if ($diff < 86400) {
         $hours = (int) floor($diff / 3600);
-        return $hours . ' hour' . ($hours > 1 ? 's' : '') . ' ago';
+        return sprintf(__($hours === 1 ? 'time_hour_ago' : 'time_hours_ago'), $hours);
     }
     if ($diff < 2592000) {
         $days = (int) floor($diff / 86400);
-        return $days . ' day' . ($days > 1 ? 's' : '') . ' ago';
+        return sprintf(__($days === 1 ? 'time_day_ago' : 'time_days_ago'), $days);
     }
     return date('M j, Y', $time);
 };

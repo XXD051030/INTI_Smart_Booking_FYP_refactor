@@ -16,8 +16,8 @@ if ($user === null) {
 \V2\Support\Auth::loginStudent($user);
 
 app()->view()->render('student/setting', [
-    'pageTitle' => 'Settings - INTI Reservation System',
-    'headerTitle' => 'Settings',
+    'pageTitle' => __('page_title_settings'),
+    'headerTitle' => __('settings'),
     'activeNav' => 'settings',
     'currentUser' => $user,
     'notificationCount' => app()->notificationService()->unreadCount((int) $user['id']),

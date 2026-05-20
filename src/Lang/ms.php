@@ -270,6 +270,7 @@ return [
     'admin_table_last_updated' => 'Kemas Kini Terakhir',
     'admin_table_actions' => 'Tindakan',
     'admin_badge_verified' => 'Disahkan',
+    'admin_badge_unverified' => 'Belum Disahkan',
     'admin_tooltip_edit_user' => 'Sunting Pengguna',
     'admin_tooltip_reset_password' => 'Tetap Semula Kata Laluan',
     'admin_tooltip_delete_user' => 'Padam Pengguna',
@@ -349,4 +350,27 @@ return [
     'admin_bk_js_error_cancel' => 'Ralat membatalkan tempahan: ',
     'admin_bk_js_confirm_cancel' => 'Adakah anda pasti mahu membatalkan tempahan ini? Tindakan ini tidak boleh dipulihkan.',
     'admin_bk_js_cancel_success' => 'Tempahan berjaya dibatalkan!',
+
+    //Page titles (browser tab) and shared header titles
+    'page_title_login' => 'Log Masuk - Sistem Tempahan INTI',
+    'page_title_register' => 'Pendaftaran E-mel',
+    'page_title_general' => 'Papan Pemuka Tempahan - Sistem Tempahan INTI',
+    'page_title_booking' => 'Tempah Kemudahan - Sistem Tempahan INTI',
+    'page_title_my_bookings' => 'Tempahan Saya - Sistem Tempahan INTI',
+    'page_title_rules' => 'Peraturan - Sistem Tempahan INTI',
+    'page_title_support' => 'Sokongan - Sistem Tempahan INTI',
+    'page_title_language' => 'Bahasa - Sistem Tempahan INTI',
+    'page_title_profile' => 'Profil - Sistem Tempahan INTI',
+    'page_title_settings' => 'Tetapan - Sistem Tempahan INTI',
+    'page_title_otp' => 'Sahkan E-mel Anda - Sistem Tempahan INTI',
+    'book_facilities_header' => 'Tempah Kemudahan',
+
+    //Notification time-ago labels (used by get_notifications.php)
+    'time_just_now' => 'Baru sahaja',
+    'time_minute_ago' => '%d minit lalu',
+    'time_minutes_ago' => '%d minit lalu',
+    'time_hour_ago' => '%d jam lalu',
+    'time_hours_ago' => '%d jam lalu',
+    'time_day_ago' => '%d hari lalu',
+    'time_days_ago' => '%d hari lalu',
 ];

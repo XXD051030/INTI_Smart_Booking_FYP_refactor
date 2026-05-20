@@ -270,6 +270,7 @@ return [
     'admin_table_last_updated' => '最近更新',
     'admin_table_actions' => '操作',
     'admin_badge_verified' => '已验证',
+    'admin_badge_unverified' => '未验证',
     'admin_tooltip_edit_user' => '编辑用户',
     'admin_tooltip_reset_password' => '重置密码',
     'admin_tooltip_delete_user' => '删除用户',
@@ -349,4 +350,27 @@ return [
     'admin_bk_js_error_cancel' => '取消预订失败：',
     'admin_bk_js_confirm_cancel' => '确定要取消此预订吗？此操作无法撤销。',
     'admin_bk_js_cancel_success' => '预订已成功取消！',
+
+    //Page titles (browser tab) and shared header titles
+    'page_title_login' => '登录 - INTI 预订系统',
+    'page_title_register' => '邮箱注册',
+    'page_title_general' => '主页 - INTI 预订系统',
+    'page_title_booking' => '预订设施 - INTI 预订系统',
+    'page_title_my_bookings' => '我的预订 - INTI 预订系统',
+    'page_title_rules' => '规章制度 - INTI 预订系统',
+    'page_title_support' => '支持 - INTI 预订系统',
+    'page_title_language' => '语言 - INTI 预订系统',
+    'page_title_profile' => '简介 - INTI 预订系统',
+    'page_title_settings' => '设置 - INTI 预订系统',
+    'page_title_otp' => '验证邮箱 - INTI 预订系统',
+    'book_facilities_header' => '预订设施',
+
+    //Notification time-ago labels (used by get_notifications.php)
+    'time_just_now' => '刚刚',
+    'time_minute_ago' => '%d 分钟前',
+    'time_minutes_ago' => '%d 分钟前',
+    'time_hour_ago' => '%d 小时前',
+    'time_hours_ago' => '%d 小时前',
+    'time_day_ago' => '%d 天前',
+    'time_days_ago' => '%d 天前',
 ];

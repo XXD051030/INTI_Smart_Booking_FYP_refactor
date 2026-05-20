@@ -18,8 +18,8 @@ if ($user === null) {
 $facilities = app()->facilities()->allActive();
 
 app()->view()->render('student/booking', [
-    'pageTitle' => 'Book Facilities - INTI Reservation System',
-    'headerTitle' => 'Book Facilities',
+    'pageTitle' => __('page_title_booking'),
+    'headerTitle' => __('book_facilities_header'),
     'activeNav' => 'booking',
     'currentUser' => $user,
     'notificationCount' => app()->notificationService()->unreadCount((int) $user['id']),

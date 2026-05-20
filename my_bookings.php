@@ -41,8 +41,8 @@ $totalPages = (int) max(1, ceil($totalBookings / $bookingsPerPage));
 $pageBookings = array_slice($filtered, ($currentPage - 1) * $bookingsPerPage, $bookingsPerPage);
 
 app()->view()->render('student/my_bookings', [
-    'pageTitle' => 'My Bookings - INTI Reservation System',
-    'headerTitle' => 'My Bookings',
+    'pageTitle' => __('page_title_my_bookings'),
+    'headerTitle' => __('my_bookings'),
     'activeNav' => 'my_bookings',
     'currentUser' => $user,
     'notificationCount' => app()->notificationService()->unreadCount((int) $user['id']),

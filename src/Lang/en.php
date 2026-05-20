@@ -269,6 +269,7 @@ return [
     'admin_table_last_updated' => 'Last Updated',
     'admin_table_actions' => 'Actions',
     'admin_badge_verified' => 'Verified',
+    'admin_badge_unverified' => 'Unverified',
     'admin_tooltip_edit_user' => 'Edit User',
     'admin_tooltip_reset_password' => 'Reset Password',
     'admin_tooltip_delete_user' => 'Delete User',
@@ -348,4 +349,27 @@ return [
     'admin_bk_js_error_cancel' => 'Error cancelling booking: ',
     'admin_bk_js_confirm_cancel' => 'Are you sure you want to cancel this booking? This action cannot be undone.',
     'admin_bk_js_cancel_success' => 'Booking cancelled successfully!',
+
+    //Page titles (browser tab) and shared header titles
+    'page_title_login' => 'Login - INTI Reservation System',
+    'page_title_register' => 'Email Registration',
+    'page_title_general' => 'Reservation Dashboard - INTI Reservation System',
+    'page_title_booking' => 'Book Facilities - INTI Reservation System',
+    'page_title_my_bookings' => 'My Bookings - INTI Reservation System',
+    'page_title_rules' => 'Rules - INTI Reservation System',
+    'page_title_support' => 'Support - INTI Reservation System',
+    'page_title_language' => 'Language - INTI Reservation System',
+    'page_title_profile' => 'Profile - INTI Reservation System',
+    'page_title_settings' => 'Settings - INTI Reservation System',
+    'page_title_otp' => 'Verify your email - INTI Reservation System',
+    'book_facilities_header' => 'Book Facilities',
+
+    //Notification time-ago labels (used by get_notifications.php)
+    'time_just_now' => 'Just now',
+    'time_minute_ago' => '%d minute ago',
+    'time_minutes_ago' => '%d minutes ago',
+    'time_hour_ago' => '%d hour ago',
+    'time_hours_ago' => '%d hours ago',
+    'time_day_ago' => '%d day ago',
+    'time_days_ago' => '%d days ago',
 ];

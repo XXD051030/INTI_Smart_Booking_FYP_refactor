@@ -9,5 +9,5 @@ if (current_student() !== null) {
 }
 
 app()->view()->render('auth/login', [
-    'pageTitle' => 'Login - Reservation System',
+    'pageTitle' => __('page_title_login'),
 ], 'auth');
