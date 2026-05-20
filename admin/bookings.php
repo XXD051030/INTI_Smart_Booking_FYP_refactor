@@ -12,8 +12,8 @@ $timeSlots = ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15
 $today = date('Y-m-d');
 
 app()->view()->render('admin/bookings', [
-    'pageTitle' => 'Booking Management - Admin Dashboard',
-    'adminHeaderTitle' => 'Booking Management',
+    'pageTitle' => __('admin_bk_mgmt_title'),
+    'adminHeaderTitle' => __('admin_bk_mgmt'),
     'activeNav' => 'bookings',
     'currentAdmin' => $currentAdmin,
     'facilities' => $facilities,

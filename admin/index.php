@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $message = (string) ($_GET['message'] ?? '');
 
 app()->view()->render('admin/login', [
-    'pageTitle' => 'Admin Login - Reservation System',
+    'pageTitle' => __('admin_login_title'),
     'error' => $error,
     'message' => $message,
 ], 'raw');

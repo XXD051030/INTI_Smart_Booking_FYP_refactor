@@ -15,4 +15,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     flash('language', __('save') . ' ✓');
 }
 
+$next = (string) ($_POST['next'] ?? $_GET['next'] ?? '');
+if ($next !== '' && preg_match('#^[A-Za-z0-9_\-/\.]+\.php(\?[^\s]*)?$#', $next) === 1) {
+    redirect($next);
+}
+
 redirect('language.php');

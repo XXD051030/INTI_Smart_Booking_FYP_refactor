@@ -12,8 +12,8 @@ $users = app()->users()->all();
 $totalUsers = count($users);
 
 app()->view()->render('admin/dashboard', [
-    'pageTitle' => 'Admin Dashboard - Reservation System',
-    'adminHeaderTitle' => 'Admin Dashboard',
+    'pageTitle' => __('admin_page_title'),
+    'adminHeaderTitle' => __('admin_dashboard'),
     'activeNav' => 'dashboard',
     'currentAdmin' => $currentAdmin,
     'users' => $users,

@@ -1,11 +1,11 @@
 <?php declare(strict_types=1); ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?= e(current_locale()) ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="<?= e(csrf_token()) ?>">
-    <title>Admin Login - Reservation System</title>
+    <title><?= e(__('admin_login_title')) ?></title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -113,8 +113,8 @@
     <div class="admin-login-card">
         <div class="admin-header">
             <img src="<?= e(asset_url('images/logo/inti_logo.png')) ?>" alt="INTI Logo" class="admin-logo">
-            <h2 class="admin-title">Admin Panel</h2>
-            <p class="admin-subtitle">Reservation System Administration</p>
+            <h2 class="admin-title"><?= e(__('admin_panel')) ?></h2>
+            <p class="admin-subtitle"><?= e(__('admin_panel_sub')) ?></p>
         </div>
 
         <?php if (!empty($error)): ?>
@@ -133,26 +133,26 @@
             <?= csrf_field() ?>
             <div class="form-group">
                 <label for="username" class="form-label">
-                    <i class="fas fa-user me-2"></i>Username
+                    <i class="fas fa-user me-2"></i><?= e(__('admin_username')) ?>
                 </label>
                 <input type="text" class="form-control" id="username" name="username" required>
             </div>
 
             <div class="form-group">
                 <label for="password" class="form-label">
-                    <i class="fas fa-lock me-2"></i>Password
+                    <i class="fas fa-lock me-2"></i><?= e(__('admin_password')) ?>
                 </label>
                 <input type="password" class="form-control" id="password" name="password" required>
             </div>
 
             <button type="submit" class="btn btn-admin">
-                <i class="fas fa-sign-in-alt me-2"></i>Login to Admin Panel
+                <i class="fas fa-sign-in-alt me-2"></i><?= e(__('admin_login_btn')) ?>
             </button>
         </form>
 
         <div class="back-link">
             <a href="<?= e(app_url('login.php')) ?>">
-                <i class="fas fa-arrow-left me-2"></i>Back to User Login
+                <i class="fas fa-arrow-left me-2"></i><?= e(__('admin_back_user_login')) ?>
             </a>
         </div>
     </div>

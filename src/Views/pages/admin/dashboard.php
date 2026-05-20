@@ -5,7 +5,7 @@
         <div class="stats-card users">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
-                    <h5 class="text-muted mb-1">Total Users</h5>
+                    <h5 class="text-muted mb-1"><?= e(__('admin_stat_total_users')) ?></h5>
                     <h2 class="mb-0"><?= e((string) ($stats['total_users'] ?? 0)) ?></h2>
                 </div>
                 <i class="fas fa-users fa-2x text-success"></i>
@@ -16,7 +16,7 @@
         <div class="stats-card verified">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
-                    <h5 class="text-muted mb-1">Verified Users</h5>
+                    <h5 class="text-muted mb-1"><?= e(__('admin_stat_verified')) ?></h5>
                     <h2 class="mb-0"><?= e((string) ($stats['verified_users'] ?? 0)) ?></h2>
                 </div>
                 <i class="fas fa-user-check fa-2x text-primary"></i>
@@ -27,7 +27,7 @@
         <div class="stats-card unverified">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
-                    <h5 class="text-muted mb-1">Unverified Users</h5>
+                    <h5 class="text-muted mb-1"><?= e(__('admin_stat_unverified')) ?></h5>
                     <h2 class="mb-0"><?= e((string) ($stats['unverified_users'] ?? 0)) ?></h2>
                 </div>
                 <i class="fas fa-user-times fa-2x text-warning"></i>
@@ -38,7 +38,7 @@
         <div class="stats-card otps">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
-                    <h5 class="text-muted mb-1">Active OTPs</h5>
+                    <h5 class="text-muted mb-1"><?= e(__('admin_stat_active_otps')) ?></h5>
                     <h2 class="mb-0"><?= e((string) ($otpStats['active_otps'] ?? 0)) ?></h2>
                 </div>
                 <i class="fas fa-key fa-2x text-danger"></i>
@@ -50,26 +50,26 @@
 <!-- Users Table -->
 <div id="users" class="table-card">
     <h4 class="table-header">
-        <i class="fas fa-users me-2"></i>Registered Users
+        <i class="fas fa-users me-2"></i><?= e(__('admin_registered_users')) ?>
     </h4>
     <div class="p-3 border-bottom">
         <div class="row">
             <div class="col-md-6">
                 <div class="input-group">
                     <span class="input-group-text"><i class="fas fa-search"></i></span>
-                    <input type="text" class="form-control" id="userSearch" placeholder="Search users by username or email...">
+                    <input type="text" class="form-control" id="userSearch" placeholder="<?= e(__('admin_search_users_placeholder')) ?>">
                 </div>
             </div>
             <div class="col-md-3">
                 <select class="form-select" id="verificationFilter">
-                    <option value="">All Users</option>
-                    <option value="1">Verified Only</option>
-                    <option value="0">Unverified Only</option>
+                    <option value=""><?= e(__('admin_filter_all_users')) ?></option>
+                    <option value="1"><?= e(__('admin_filter_verified_only')) ?></option>
+                    <option value="0"><?= e(__('admin_filter_unverified_only')) ?></option>
                 </select>
             </div>
             <div class="col-md-3">
                 <button class="btn btn-secondary w-100" onclick="clearFilters()">
-                    <i class="fas fa-times me-1"></i>Clear Filters
+                    <i class="fas fa-times me-1"></i><?= e(__('admin_clear_filters')) ?>
                 </button>
             </div>
         </div>
@@ -78,13 +78,13 @@
         <table class="table table-hover" id="usersTable">
             <thead class="table-light">
                 <tr>
-                    <th>ID</th>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>Status</th>
-                    <th>Created</th>
-                    <th>Last Updated</th>
-                    <th>Actions</th>
+                    <th><?= e(__('admin_table_id')) ?></th>
+                    <th><?= e(__('admin_table_username')) ?></th>
+                    <th><?= e(__('admin_table_email')) ?></th>
+                    <th><?= e(__('admin_table_status')) ?></th>
+                    <th><?= e(__('admin_table_created')) ?></th>
+                    <th><?= e(__('admin_table_last_updated')) ?></th>
+                    <th><?= e(__('admin_table_actions')) ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -95,19 +95,19 @@
                             <td><?= e((string) $u['display_name']) ?></td>
                             <td><?= e((string) $u['email']) ?></td>
                             <td>
-                                <span class="badge badge-verified">Verified</span>
+                                <span class="badge badge-verified"><?= e(__('admin_badge_verified')) ?></span>
                             </td>
                             <td><?= e(date('Y-m-d H:i', strtotime((string) $u['created_at']))) ?></td>
                             <td><?= e(date('Y-m-d H:i', strtotime((string) ($u['updated_at'] ?? $u['created_at'])))) ?></td>
                             <td>
                                 <div class="btn-group" role="group">
-                                    <button class="btn btn-primary btn-sm" onclick="editUser(<?= e((string) $u['id']) ?>, '<?= e((string) $u['display_name']) ?>', '<?= e((string) $u['email']) ?>')" title="Edit User">
+                                    <button class="btn btn-primary btn-sm" onclick="editUser(<?= e((string) $u['id']) ?>, '<?= e((string) $u['display_name']) ?>', '<?= e((string) $u['email']) ?>')" title="<?= e(__('admin_tooltip_edit_user')) ?>">
                                         <i class="fas fa-edit"></i>
                                     </button>
-                                    <button class="btn btn-warning btn-sm" onclick="resetPassword(<?= e((string) $u['id']) ?>, '<?= e((string) $u['display_name']) ?>')" title="Reset Password">
+                                    <button class="btn btn-warning btn-sm" onclick="resetPassword(<?= e((string) $u['id']) ?>, '<?= e((string) $u['display_name']) ?>')" title="<?= e(__('admin_tooltip_reset_password')) ?>">
                                         <i class="fas fa-key"></i>
                                     </button>
-                                    <button class="btn btn-danger btn-sm" onclick="deleteUser(<?= e((string) $u['id']) ?>, '<?= e((string) $u['display_name']) ?>')" title="Delete User">
+                                    <button class="btn btn-danger btn-sm" onclick="deleteUser(<?= e((string) $u['id']) ?>, '<?= e((string) $u['display_name']) ?>')" title="<?= e(__('admin_tooltip_delete_user')) ?>">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
@@ -116,7 +116,7 @@
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="7" class="text-center text-muted">No users found</td>
+                        <td colspan="7" class="text-center text-muted"><?= e(__('admin_no_users_found')) ?></td>
                     </tr>
                 <?php endif; ?>
             </tbody>
@@ -127,25 +127,25 @@
 <!-- OTP Table (deferred - empty in V2) -->
 <div id="otps" class="table-card">
     <h4 class="table-header">
-        <i class="fas fa-key me-2"></i>OTP Verification History
+        <i class="fas fa-key me-2"></i><?= e(__('admin_otp_history')) ?>
     </h4>
     <div class="table-responsive">
         <table class="table table-hover">
             <thead class="table-light">
                 <tr>
-                    <th>ID</th>
-                    <th>User</th>
-                    <th>Email</th>
-                    <th>OTP Code</th>
-                    <th>Expires At</th>
-                    <th>Created At</th>
-                    <th>Status</th>
-                    <th>Actions</th>
+                    <th><?= e(__('admin_table_id')) ?></th>
+                    <th><?= e(__('admin_otp_user')) ?></th>
+                    <th><?= e(__('admin_table_email')) ?></th>
+                    <th><?= e(__('admin_otp_code')) ?></th>
+                    <th><?= e(__('admin_otp_expires')) ?></th>
+                    <th><?= e(__('admin_otp_created')) ?></th>
+                    <th><?= e(__('admin_table_status')) ?></th>
+                    <th><?= e(__('admin_table_actions')) ?></th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td colspan="8" class="text-center text-muted">OTP module deferred to Round 2</td>
+                    <td colspan="8" class="text-center text-muted"><?= e(__('admin_otp_deferred')) ?></td>
                 </tr>
             </tbody>
         </table>
@@ -157,25 +157,25 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Edit User</h5>
+                <h5 class="modal-title"><?= e(__('admin_modal_edit_user')) ?></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <form id="editUserForm">
                     <input type="hidden" id="editUserId">
                     <div class="mb-3">
-                        <label for="editUsername" class="form-label">Username</label>
+                        <label for="editUsername" class="form-label"><?= e(__('admin_modal_username')) ?></label>
                         <input type="text" class="form-control" id="editUsername" required>
                     </div>
                     <div class="mb-3">
-                        <label for="editEmail" class="form-label">Email</label>
+                        <label for="editEmail" class="form-label"><?= e(__('admin_modal_email')) ?></label>
                         <input type="email" class="form-control" id="editEmail" required>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" onclick="saveUserChanges()">Save Changes</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?= e(__('admin_modal_cancel')) ?></button>
+                <button type="button" class="btn btn-primary" onclick="saveUserChanges()"><?= e(__('admin_modal_save_changes')) ?></button>
             </div>
         </div>
     </div>
@@ -186,36 +186,49 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Reset User Password</h5>
+                <h5 class="modal-title"><?= e(__('admin_modal_reset_password')) ?></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <form id="resetPasswordForm">
                     <input type="hidden" id="resetUserId">
                     <div class="mb-3">
-                        <label for="resetUsername" class="form-label">Username</label>
+                        <label for="resetUsername" class="form-label"><?= e(__('admin_modal_username')) ?></label>
                         <input type="text" class="form-control" id="resetUsername" readonly>
                     </div>
                     <div class="mb-3">
-                        <label for="newPassword" class="form-label">New Password</label>
+                        <label for="newPassword" class="form-label"><?= e(__('admin_modal_new_password')) ?></label>
                         <input type="password" class="form-control" id="newPassword" required minlength="6">
-                        <div class="form-text">Password must be at least 6 characters long</div>
+                        <div class="form-text"><?= e(__('admin_modal_password_hint')) ?></div>
                     </div>
                     <div class="mb-3">
-                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                        <label for="confirmPassword" class="form-label"><?= e(__('admin_modal_confirm_password')) ?></label>
                         <input type="password" class="form-control" id="confirmPassword" required>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-warning" onclick="savePasswordReset()">Reset Password</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?= e(__('admin_modal_cancel')) ?></button>
+                <button type="button" class="btn btn-warning" onclick="savePasswordReset()"><?= e(__('admin_modal_reset_btn')) ?></button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
+    window.ADMIN_LABELS = {
+        confirm_delete: <?= json_encode(__('admin_js_confirm_delete'), JSON_UNESCAPED_UNICODE) ?>,
+        user_deleted: <?= json_encode(__('admin_js_user_deleted'), JSON_UNESCAPED_UNICODE) ?>,
+        user_updated: <?= json_encode(__('admin_js_user_updated'), JSON_UNESCAPED_UNICODE) ?>,
+        password_mismatch: <?= json_encode(__('admin_js_password_mismatch'), JSON_UNESCAPED_UNICODE) ?>,
+        password_too_short: <?= json_encode(__('admin_js_password_too_short'), JSON_UNESCAPED_UNICODE) ?>,
+        confirm_reset: <?= json_encode(__('admin_js_confirm_reset'), JSON_UNESCAPED_UNICODE) ?>,
+        password_reset: <?= json_encode(__('admin_js_password_reset'), JSON_UNESCAPED_UNICODE) ?>,
+        error_prefix: <?= json_encode(__('admin_js_error_prefix'), JSON_UNESCAPED_UNICODE) ?>,
+        error_delete: <?= json_encode(__('admin_js_error_delete'), JSON_UNESCAPED_UNICODE) ?>,
+        error_update: <?= json_encode(__('admin_js_error_update'), JSON_UNESCAPED_UNICODE) ?>,
+        error_reset: <?= json_encode(__('admin_js_error_reset'), JSON_UNESCAPED_UNICODE) ?>
+    };
     const csrfToken = (document.querySelector('meta[name="csrf-token"]') || {}).content || '';
     function csrfHeaders() { return { 'Content-Type': 'application/x-www-form-urlencoded', 'X-CSRF-Token': csrfToken }; }
     function csrfBody(extra) { return extra + '&_token=' + encodeURIComponent(csrfToken); }
@@ -231,7 +244,7 @@
     });
 
     function deleteUser(userId, username) {
-        if (confirm(`Are you sure you want to delete user "${username}"? This action cannot be undone.`)) {
+        if (confirm(window.ADMIN_LABELS.confirm_delete.replace('{username}', username))) {
             fetch('<?= e(admin_url('actions.php')) ?>', {
                 method: 'POST',
                 headers: csrfHeaders(),
@@ -240,13 +253,13 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert('User deleted successfully!');
+                    alert(window.ADMIN_LABELS.user_deleted);
                     location.reload();
                 } else {
-                    alert('Error: ' + data.message);
+                    alert(window.ADMIN_LABELS.error_prefix + data.message);
                 }
             })
-            .catch(error => alert('Error deleting user: ' + error));
+            .catch(error => alert(window.ADMIN_LABELS.error_delete + error));
         }
     }
 
@@ -271,13 +284,13 @@
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert('User updated successfully!');
+                alert(window.ADMIN_LABELS.user_updated);
                 location.reload();
             } else {
-                alert('Error: ' + data.message);
+                alert(window.ADMIN_LABELS.error_prefix + data.message);
             }
         })
-        .catch(error => alert('Error updating user: ' + error));
+        .catch(error => alert(window.ADMIN_LABELS.error_update + error));
     }
 
     function resetPassword(userId, username) {
@@ -295,15 +308,15 @@
         const confirmPassword = document.getElementById('confirmPassword').value;
 
         if (newPassword !== confirmPassword) {
-            alert('Passwords do not match!');
+            alert(window.ADMIN_LABELS.password_mismatch);
             return;
         }
         if (newPassword.length < 6) {
-            alert('Password must be at least 6 characters long!');
+            alert(window.ADMIN_LABELS.password_too_short);
             return;
         }
 
-        if (confirm('Are you sure you want to reset this user\'s password?')) {
+        if (confirm(window.ADMIN_LABELS.confirm_reset)) {
             fetch('<?= e(admin_url('actions.php')) ?>', {
                 method: 'POST',
                 headers: csrfHeaders(),
@@ -312,14 +325,14 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert('Password reset successfully!');
+                    alert(window.ADMIN_LABELS.password_reset);
                     const modal = bootstrap.Modal.getInstance(document.getElementById('resetPasswordModal'));
                     modal.hide();
                 } else {
-                    alert('Error: ' + data.message);
+                    alert(window.ADMIN_LABELS.error_prefix + data.message);
                 }
             })
-            .catch(error => alert('Error resetting password: ' + error));
+            .catch(error => alert(window.ADMIN_LABELS.error_reset + error));
         }
     }
 
