@@ -316,17 +316,17 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="mb-0">
         <i class="far fa-calendar me-2" style="color: #f61f1f;"></i>
-        <span style="color: #f61f1f; font-weight: 600;">Calendar Overview</span>
+        <span style="color: #f61f1f; font-weight: 600;"><?= e(__('calendar_overview')) ?></span>
     </h3>
     <div class="d-flex gap-2">
         <button class="btn btn-outline-secondary btn-sm" onclick="goToToday()">
-            <i class="fas fa-calendar-day me-1"></i> Today
+            <i class="fas fa-calendar-day me-1"></i> <?= e(__('cal_today')) ?>
         </button>
-        <button class="btn btn-outline-secondary btn-sm" onclick="refreshCalendar()" title="Refresh Calendar">
-            <i class="fas fa-sync-alt me-1"></i> Refresh
+        <button class="btn btn-outline-secondary btn-sm" onclick="refreshCalendar()" title="<?= e(__('cal_refresh_title')) ?>">
+            <i class="fas fa-sync-alt me-1"></i> <?= e(__('cal_refresh')) ?>
         </button>
         <a href="<?= e(app_url('booking.php')) ?>" class="btn btn-primary btn-sm">
-            <i class="fas fa-plus me-1"></i> New Booking
+            <i class="fas fa-plus me-1"></i> <?= e(__('cal_new_booking')) ?>
         </a>
     </div>
 </div>
@@ -337,25 +337,25 @@
         <div class="col-md-3">
             <div class="stat-item">
                 <span class="stat-number" id="total-bookings">-</span>
-                <span class="stat-label">Total Bookings</span>
+                <span class="stat-label"><?= e(__('cal_total_bookings')) ?></span>
             </div>
         </div>
         <div class="col-md-3">
             <div class="stat-item">
                 <span class="stat-number" id="this-month">-</span>
-                <span class="stat-label">This Month</span>
+                <span class="stat-label"><?= e(__('cal_this_month')) ?></span>
             </div>
         </div>
         <div class="col-md-3">
             <div class="stat-item">
                 <span class="stat-number" id="upcoming">-</span>
-                <span class="stat-label">Upcoming</span>
+                <span class="stat-label"><?= e(__('cal_upcoming')) ?></span>
             </div>
         </div>
         <div class="col-md-3">
             <div class="stat-item">
                 <span class="stat-number" id="this-week">-</span>
-                <span class="stat-label">This Week</span>
+                <span class="stat-label"><?= e(__('cal_this_week')) ?></span>
             </div>
         </div>
     </div>
@@ -365,13 +365,26 @@
 <div class="calendar-container">
     <div id="calendar-loading" class="calendar-loading">
         <div class="loading-spinner"></div>
-        Loading calendar...
+        <?= e(__('cal_loading')) ?>
     </div>
     <div id='calendar' style="display: none;"></div>
 </div>
 
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+<?php
+    $calLocaleMap = ['en' => 'en', 'ms' => 'ms', 'zh' => 'zh-cn'];
+    $fcLocale = $calLocaleMap[current_locale()] ?? 'en';
+?>
+<?php if ($fcLocale !== 'en'): ?>
+<script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.8/locales/<?= e($fcLocale) ?>.global.min.js'></script>
+<?php endif; ?>
 <script>
+    window.CALENDAR_LABELS = {
+        locale: <?= json_encode($fcLocale, JSON_UNESCAPED_UNICODE) ?>,
+        event_date: <?= json_encode(__('cal_event_date'), JSON_UNESCAPED_UNICODE) ?>,
+        event_end: <?= json_encode(__('cal_event_end'), JSON_UNESCAPED_UNICODE) ?>,
+        event_booking_id: <?= json_encode(__('cal_event_booking_id'), JSON_UNESCAPED_UNICODE) ?>
+    };
     let calendar;
     let allEvents = [];
 
@@ -392,6 +405,7 @@
 
         calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
+            locale: window.CALENDAR_LABELS.locale,
             headerToolbar: {
                 left: 'prev,next today',
                 center: 'title',
@@ -556,9 +570,9 @@
                     </div>
                     <div class="flex-grow-1">
                         <h5 class="alert-heading mb-2" style="color: #1f2937; font-weight: 600;">${event.title}</h5>
-                        <p class="mb-1" style="color: #4b5563;"><strong>Date:</strong> ${startTime}</p>
-                        <p class="mb-1" style="color: #4b5563;"><strong>End Time:</strong> ${endTime}</p>
-                        <p class="mb-0" style="color: #4b5563;"><strong>Booking ID:</strong> #${event.id}</p>
+                        <p class="mb-1" style="color: #4b5563;"><strong>${window.CALENDAR_LABELS.event_date}</strong> ${startTime}</p>
+                        <p class="mb-1" style="color: #4b5563;"><strong>${window.CALENDAR_LABELS.event_end}</strong> ${endTime}</p>
+                        <p class="mb-0" style="color: #4b5563;"><strong>${window.CALENDAR_LABELS.event_booking_id}</strong> #${event.id}</p>
                     </div>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>

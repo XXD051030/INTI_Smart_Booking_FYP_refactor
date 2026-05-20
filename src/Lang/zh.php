@@ -214,4 +214,20 @@ return [
     'Phone' => '电话号码：',
     'Address' => '地址：',
     'Click here to Email Support' => '点击这里发送支持电邮',
+
+    //Calendar page
+    'calendar_page_title' => '日历 - INTI 预订系统',
+    'calendar_overview' => '日历总览',
+    'cal_today' => '今天',
+    'cal_refresh' => '刷新',
+    'cal_refresh_title' => '刷新日历',
+    'cal_new_booking' => '新预订',
+    'cal_total_bookings' => '总预订数',
+    'cal_this_month' => '本月',
+    'cal_upcoming' => '即将到来',
+    'cal_this_week' => '本周',
+    'cal_loading' => '日历加载中...',
+    'cal_event_date' => '日期：',
+    'cal_event_end' => '结束时间：',
+    'cal_event_booking_id' => '预订编号：',
 ];

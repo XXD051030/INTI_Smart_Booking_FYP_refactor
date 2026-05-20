@@ -214,4 +214,19 @@ return [
     'Address' => 'Address:',
     'Click here to Email Support' => 'Click here to Email Support',
 
+    //Calendar page
+    'calendar_page_title' => 'Calendar - INTI Reservation System',
+    'calendar_overview' => 'Calendar Overview',
+    'cal_today' => 'Today',
+    'cal_refresh' => 'Refresh',
+    'cal_refresh_title' => 'Refresh Calendar',
+    'cal_new_booking' => 'New Booking',
+    'cal_total_bookings' => 'Total Bookings',
+    'cal_this_month' => 'This Month',
+    'cal_upcoming' => 'Upcoming',
+    'cal_this_week' => 'This Week',
+    'cal_loading' => 'Loading calendar...',
+    'cal_event_date' => 'Date:',
+    'cal_event_end' => 'End Time:',
+    'cal_event_booking_id' => 'Booking ID:',
 ];

@@ -16,8 +16,8 @@ if ($user === null) {
 \V2\Support\Auth::loginStudent($user);
 
 app()->view()->render('student/calendar', [
-    'pageTitle' => 'Calendar - INTI Reservation System',
-    'headerTitle' => 'Calendar Overview',
+    'pageTitle' => __('calendar_page_title'),
+    'headerTitle' => __('calendar_overview'),
     'activeNav' => 'calendar',
     'currentUser' => $user,
     'notificationCount' => app()->notificationService()->unreadCount((int) $user['id']),

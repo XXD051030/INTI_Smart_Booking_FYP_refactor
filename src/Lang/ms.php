@@ -215,4 +215,19 @@ return [
     'Address' => 'Alamat:',
     'Click here to Email Support' => 'Klik di sini untuk E-mel Sokongan',
 
+    //Calendar page
+    'calendar_page_title' => 'Kalendar - Sistem Tempahan INTI',
+    'calendar_overview' => 'Pandangan Kalendar',
+    'cal_today' => 'Hari Ini',
+    'cal_refresh' => 'Muat Semula',
+    'cal_refresh_title' => 'Muat Semula Kalendar',
+    'cal_new_booking' => 'Tempahan Baru',
+    'cal_total_bookings' => 'Jumlah Tempahan',
+    'cal_this_month' => 'Bulan Ini',
+    'cal_upcoming' => 'Akan Datang',
+    'cal_this_week' => 'Minggu Ini',
+    'cal_loading' => 'Memuatkan kalendar...',
+    'cal_event_date' => 'Tarikh:',
+    'cal_event_end' => 'Masa Tamat:',
+    'cal_event_booking_id' => 'ID Tempahan:',
 ];
