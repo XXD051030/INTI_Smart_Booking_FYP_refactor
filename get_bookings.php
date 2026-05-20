@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 require __DIR__ . '/bootstrap.php';
 
+require_student_json();
+
 header('Content-Type: application/json');
 
 $rows = app()->bookings()->listConfirmedEvents();

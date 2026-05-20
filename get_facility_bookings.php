@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 require __DIR__ . '/bootstrap.php';
 
+require_student_json();
+
 header('Content-Type: application/json');
 
 $facilityId = (int) ($_GET['facility_id'] ?? 0);
