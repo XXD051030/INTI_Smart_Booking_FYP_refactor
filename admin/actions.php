@@ -27,16 +27,28 @@ switch ($action) {
 
     case 'edit_user':
         $userId = (int) ($_POST['user_id'] ?? 0);
-        $username = (string) ($_POST['username'] ?? '');
-        $email = (string) ($_POST['email'] ?? '');
+        $username = trim((string) ($_POST['username'] ?? ''));
+        $email = strtolower(trim((string) ($_POST['email'] ?? '')));
         if ($userId <= 0 || $username === '' || $email === '') {
             json_response(['success' => false, 'message' => 'All fields are required']);
+        }
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            json_response(['success' => false, 'message' => 'Invalid email address']);
         }
         $user = app()->users()->findById($userId);
         if ($user === null) {
             json_response(['success' => false, 'message' => 'User not found']);
         }
-        app()->users()->updateProfile($userId, $username, $email, (string) ($user['preferred_language'] ?? 'en'));
+        // Reject collision with a different user's email before the UNIQUE constraint throws.
+        $collision = app()->users()->findByEmail($email);
+        if ($collision !== null && (int) $collision['id'] !== $userId) {
+            json_response(['success' => false, 'message' => 'Another account already uses that email']);
+        }
+        try {
+            app()->users()->updateProfile($userId, $username, $email, (string) ($user['preferred_language'] ?? 'en'));
+        } catch (\PDOException $e) {
+            json_response(['success' => false, 'message' => 'Could not update user: ' . $e->getMessage()]);
+        }
         json_response(['success' => true, 'message' => 'User updated']);
 
     case 'reset_password':

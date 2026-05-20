@@ -34,10 +34,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['msg_type'] = 'error';
             redirect('otp-verify.php');
         }
+        // Hit before the call so abusers who keep tripping the per-user 60s
+        // throttle still accrue against the 10/hour IP cap.
+        $rl->hit($ipBucket);
         $result = app()->otpService()->sendForUser($user);
-        if ($result['success']) {
-            $rl->hit($ipBucket);
-        }
         $_SESSION['msg'] = $result['message'];
         $_SESSION['msg_type'] = $result['success'] ? 'success' : 'error';
         redirect('otp-verify.php');
@@ -64,7 +64,7 @@ $msgType = $_SESSION['msg_type'] ?? 'error';
 unset($_SESSION['msg'], $_SESSION['msg_type']);
 
 app()->view()->render('auth/otp-verify', [
-    'pageTitle' => 'Verify your email - Reservation System',
+    'pageTitle' => __('page_title_otp'),
     'email' => $email,
     'msg' => (string) $msg,
     'msgType' => (string) $msgType,
