@@ -46,4 +46,16 @@ final class OtpRepository
         $statement = $this->pdo->prepare('DELETE FROM user_otps WHERE user_id = :user_id');
         $statement->execute([':user_id' => $userId]);
     }
+
+    public function countActive(): int
+    {
+        // Active = not yet expired. expires_at is a PHP-local string,
+        // so compare against the same clock the writer used.
+        $statement = $this->pdo->prepare(
+            'SELECT COUNT(*) FROM user_otps WHERE expires_at > :now'
+        );
+        $statement->execute([':now' => date('Y-m-d H:i:s')]);
+
+        return (int) $statement->fetchColumn();
+    }
 }

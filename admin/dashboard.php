@@ -10,6 +10,12 @@ $currentAdmin = current_admin();
 
 $users = app()->users()->all();
 $totalUsers = count($users);
+$verifiedUsers = 0;
+foreach ($users as $u) {
+    if ((int) ($u['is_verified'] ?? 1) === 1) {
+        $verifiedUsers++;
+    }
+}
 
 app()->view()->render('admin/dashboard', [
     'pageTitle' => __('admin_page_title'),
@@ -19,9 +25,9 @@ app()->view()->render('admin/dashboard', [
     'users' => $users,
     'stats' => [
         'total_users' => $totalUsers,
-        'verified_users' => $totalUsers,
-        'unverified_users' => 0,
+        'verified_users' => $verifiedUsers,
+        'unverified_users' => $totalUsers - $verifiedUsers,
     ],
     'otps' => [],
-    'otpStats' => ['active_otps' => 0],
+    'otpStats' => ['active_otps' => app()->otps()->countActive()],
 ], 'admin');

@@ -90,12 +90,17 @@
             <tbody>
                 <?php if (!empty($users)): ?>
                     <?php foreach ($users as $u): ?>
-                        <tr>
+                        <?php $isVerified = (int) ($u['is_verified'] ?? 1) === 1; ?>
+                        <tr data-verified="<?= $isVerified ? '1' : '0' ?>">
                             <td><?= e((string) $u['id']) ?></td>
                             <td><?= e((string) $u['display_name']) ?></td>
                             <td><?= e((string) $u['email']) ?></td>
                             <td>
-                                <span class="badge badge-verified"><?= e(__('admin_badge_verified')) ?></span>
+                                <?php if ($isVerified): ?>
+                                    <span class="badge badge-verified"><?= e(__('admin_badge_verified')) ?></span>
+                                <?php else: ?>
+                                    <span class="badge bg-warning text-dark"><?= e(__('admin_badge_unverified')) ?></span>
+                                <?php endif; ?>
                             </td>
                             <td><?= e(date('Y-m-d H:i', strtotime((string) $u['created_at']))) ?></td>
                             <td><?= e(date('Y-m-d H:i', strtotime((string) ($u['updated_at'] ?? $u['created_at'])))) ?></td>
@@ -338,13 +343,17 @@
 
     function filterUsers() {
         const searchValue = document.getElementById('userSearch').value.toLowerCase();
+        const verifiedFilter = document.getElementById('verificationFilter').value;
         const table = document.getElementById('usersTable');
         const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
         for (let i = 0; i < rows.length; i++) {
             const row = rows[i];
             const username = row.cells[1]?.textContent.toLowerCase() || '';
             const email = row.cells[2]?.textContent.toLowerCase() || '';
-            row.style.display = (!searchValue || username.includes(searchValue) || email.includes(searchValue)) ? '' : 'none';
+            const verified = row.getAttribute('data-verified') || '';
+            const matchesSearch = !searchValue || username.includes(searchValue) || email.includes(searchValue);
+            const matchesVerified = verifiedFilter === '' || verified === verifiedFilter;
+            row.style.display = (matchesSearch && matchesVerified) ? '' : 'none';
         }
     }
 
